@@ -2,8 +2,10 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPi
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/CreateUserDto';
 import { UpdateUserDto } from './dto/UpdateUserDto';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('api/user')
+@Controller('api/users')
+@ApiTags('users')
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
