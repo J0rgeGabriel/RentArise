@@ -3,33 +3,33 @@ import { Role } from "../enums/role.enum";
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
-    @IsNotEmpty({ message: 'O nome completo é obrigatório' })
+    @IsNotEmpty({ message: 'Full name is required' })
     @IsString()
     @ApiProperty()
     fullname: string;
 
-    @IsNotEmpty({ message: 'O nome de usuário é obrigatório' })
+    @IsNotEmpty({ message: 'Username is required' })
     @IsString()
     @ApiProperty()
     username: string;
 
-    @IsNotEmpty({ message: 'O email é obrigatório' })
-    @IsEmail({}, { message: 'Email inválido' })
+    @IsNotEmpty({ message: 'Email is required' })
+    @IsEmail({}, { message: 'Invalid email' })
     @ApiProperty()
     email: string;
 
-    @IsNotEmpty({ message: 'A senha é obrigatória' })
-    @MinLength(6, { message: 'A senha deve ter pelo menos 6 caracteres' })
+    @IsNotEmpty({ message: 'Password is required' })
+    @MinLength(6, { message: 'Password must be at least 6 characters long' })
     @ApiProperty()
     password: string;
 
-    @IsNotEmpty({ message: 'O CPF é obrigatório' })
-    @Matches(/^\d{11}$/, { message: 'O CPF deve conter 11 dígitos numéricos' })
+    @IsNotEmpty({ message: 'CPF is required' })
+    @Matches(/^\d{11}$/, { message: 'CPF must contain exactly 11 numeric digits' })
     @ApiProperty()
     cpf: string;
 
-    @IsNotEmpty({ message: 'O papel do usuário é obrigatório' })
-    @IsEnum(Role, { message: 'O papel deve ser um valor válido' })
+    @IsNotEmpty({ message: 'User role is required' })
+    @IsEnum(Role, { message: 'Role must be a valid value' })
     @ApiProperty()
     role: Role;
 }
