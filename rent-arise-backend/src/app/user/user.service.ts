@@ -13,23 +13,31 @@ export class UserService {
         private readonly userRepository: Repository<UserEntity>,
     ) {}
 
-    async create(createDto: CreateUserDto) {
+    async create(createDto: CreateUserDto): Promise<UserEntity> {
         return await this.userRepository.save(this.userRepository.create(createDto));
     }
 
-    async findOne(id: string) {
+    async findOne(id: string): Promise<UserEntity> {
         try {
             return await this.userRepository.findOneOrFail({ where: { id } });
-        } catch (error){
-            throw new NotFoundException(error.message);
+        } catch {
+            throw new NotFoundException('User not found.');
         }
     }
 
-    async findAll() {
+    async findAll(): Promise<UserEntity[]> {
         return await this.userRepository.find();
     }
 
-    async update(id: string, updateDto: UpdateUserDto) {
+    async findByUsername(username: string): Promise<UserEntity | null> {
+        return await this.userRepository.findOne({ where: { username } });
+    }
+      
+    async findByEmail(email: string): Promise<UserEntity | null> {
+        return await this.userRepository.findOne({ where: { email } });
+    }
+
+    async update(id: string, updateDto: UpdateUserDto): Promise<UserEntity> {
         const user = await this.findOne(id);
 
         this.userRepository.merge(user, updateDto);
