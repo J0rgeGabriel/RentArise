@@ -17,9 +17,12 @@ export class UserService {
         return await this.userRepository.save(this.userRepository.create(createDto));
     }
 
-    async findOne(id: string): Promise<UserEntity> {
+    async findOne(id: string): Promise<Omit<UserEntity, 'password'>> {
         try {
-            return await this.userRepository.findOneOrFail({ where: { id } });
+            const user = await this.userRepository.findOneOrFail({ where: { id } });
+
+            const { password, ...userWithoutPassword } = user;
+            return userWithoutPassword;
         } catch {
             throw new NotFoundException('User not found.');
         }
@@ -38,7 +41,7 @@ export class UserService {
     }
 
     async update(id: string, updateDto: UpdateUserDto): Promise<UserEntity> {
-        const user = await this.findOne(id);
+        const user = await this.userRepository.findOneOrFail({ where: { id } });
 
         this.userRepository.merge(user, updateDto);
         return await this.userRepository.save(user);

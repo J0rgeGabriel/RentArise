@@ -35,6 +35,7 @@
     "passport-jwt": "^4.0.1",
     "pg": "^8.14.1",
     "reflect-metadata": "^0.2.2",
+    "rent-arise-backend": "file:",
     "rxjs": "^7.8.1",
     "sqlite3": "^5.1.7",
     "typeorm": "^0.3.22"
