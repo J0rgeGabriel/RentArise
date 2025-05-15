@@ -45,10 +45,11 @@ export class AuthService {
         if (!isPasswordValid) {
             throw new BadRequestException('Invalid credentials');
         }
-    
+        
         const access_token = await this.jwtService.signAsync({
             sub: user.id,
-            username: user.email,
+            username: user.username,
+            role: user.role,
         });
     
         const { password: _, ...userWithoutPassword } = user;

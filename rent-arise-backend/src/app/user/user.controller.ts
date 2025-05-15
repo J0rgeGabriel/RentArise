@@ -1,9 +1,11 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/CreateUserDto';
 import { UpdateUserDto } from './dto/UpdateUserDto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Roles } from '../authorization/roles/roles.decorator';
+import { Role } from './enums/role.enum';
+import { RolesGuard } from '../authorization/roles/roles.guard';
 
 @Controller('api/users')
 @ApiTags('users')
@@ -13,7 +15,8 @@ export class UserController {
     @Get()
     @ApiOperation({ summary: 'List all users.'})
     @ApiResponse({ status: 200, description: 'List of users'})
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.ADMIN)
     async index() {
         return await this.userService.findAll();
     }
