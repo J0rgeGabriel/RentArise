@@ -1,0 +1,112 @@
+.form-box {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px 25px;
+  border: 2px solid #003366;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 20px;
+  width: 80px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+h2 span {
+  font-weight: normal;
+}
+
+p {
+  text-align: center;
+  font-size: 0.95rem;
+  margin-bottom: 25px;
+  color: #555;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1.5px solid #003366;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+}
+
+input:focus {
+  border-color: #f7931e;
+  box-shadow: 0 0 5px rgba(247, 147, 30, 0.5);
+}
+
+.senha-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.senha-container input {
+  flex: 1;
+  padding-right: 40px;
+}
+
+.toggle {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.submit-btn {
+  margin-top: 10px;
+  background-color: #f7931e;
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.submit-btn:hover {
+  background-color: #e67e00;
+}
+
+.form-box {
+  width: 100%;
+  max-width: 420px;
+  background-color: white;
+  padding: 30px 25px;
+  border-radius: 12px;
+  border: 2px solid #003366;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 20px;
+  width: 80px;
+}

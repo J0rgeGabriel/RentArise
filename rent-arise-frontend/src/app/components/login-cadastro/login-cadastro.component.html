@@ -1,0 +1,53 @@
+<div class="wrapper">
+  <div class="form-box">
+    <img src="/assets/caixa_logo.png" alt="RentArise Logo" class="logo" />
+
+    <ng-container *ngIf="isRegister; else loginTemplate">
+      <h2><strong>Crie a sua conta.</strong> <span> É grátis!</span></h2>
+      <p>Nos informe alguns dados para que possamos melhorar a sua experiência na RentArise.</p>
+
+      <form (ngSubmit)="onSubmit()" #formRef="ngForm">
+        <label>CPF</label>
+        <input type="text" name="cpf" ngModel placeholder="000.000.000-00" required />
+
+        <label>Nome Completo</label>
+        <input type="text" name="nome" ngModel placeholder="Informe seu nome" required />
+
+        <label>Como você quer ser chamado(a)?</label>
+        <input type="text" name="apelido" ngModel placeholder="Exemplo: Jorge G." />
+
+        <label>Data de nascimento</label>
+        <input type="text" name="nascimento" ngModel placeholder="dd/mm/aaaa" />
+
+        <label>E-mail</label>
+        <input type="email" name="email" ngModel placeholder="Digite seu e-mail" required />
+
+        <label>Senha</label>
+        <div class="senha-container">
+          <input [type]="showPassword ? 'text' : 'password'" name="senha" ngModel placeholder="Digite sua senha" required />
+          <button type="button" class="toggle" (click)="togglePassword()">👁️</button>
+        </div>
+
+        <button class="submit-btn" type="submit">Cadastrar-se</button>
+      </form>
+    </ng-container>
+
+    <ng-template #loginTemplate>
+      <h2><strong>Já sou cliente</strong></h2>
+      <p>Nos informe os dados de acesso para que você possa acessar a RentArise.</p>
+
+      <form (ngSubmit)="onSubmit()" #formRef="ngForm">
+        <label>E-mail ou CPF</label>
+        <input type="email" name="email" ngModel placeholder="Digite seu e-mail ou CPF" required />
+
+        <label>Senha</label>
+        <div class="senha-container">
+          <input [type]="showPassword ? 'text' : 'password'" name="senha" ngModel placeholder="Digite sua senha" required />
+          <button type="button" class="toggle" (click)="togglePassword()">👁️</button>
+        </div>
+
+        <button class="submit-btn" type="submit">Acessar</button>
+      </form>
+    </ng-template>
+  </div>
+</div>
