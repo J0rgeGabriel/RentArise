@@ -1,0 +1,78 @@
+.container {
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+    padding: 20px;
+  }
+
+  .profile-info-block {
+    background-color: #E0E0E0;
+    padding: 20px;
+    border-radius: 12px;
+    width: 900px;
+    border-color: #0A2036;
+  }
+
+  .form-and-info {
+    display: flex;
+    gap: 40px;
+  }
+
+  .form-section, .info-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex: 1;
+    background-color: transparent;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #0A2036;
+    font-size: 16px;
+  }
+
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .icon-user, .icon-info {
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="number"] {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #0B1E3D;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+  }
+
+  button {
+    background-color: #F9A825;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
