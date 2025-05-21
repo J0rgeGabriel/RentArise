@@ -1,0 +1,50 @@
+<div class="quem-somos-container">
+  <h2 class="titulo-principal">Quem Somos</h2>
+
+  <div class="cards-container">
+    <!-- Card do Desenvolvedor Front-end -->
+    <section class="dev-card">
+      <img src="{{ frontEndDev.foto }}" alt="{{ frontEndDev.nome }}" class="foto-dev" />
+      <h3 class="nome-dev">{{ frontEndDev.nome }}</h3>
+      <div class="info-dev">
+        <p><strong>Principais tecnologias:</strong></p>
+        <ul>
+          <li *ngFor="let tech of frontEndDev.tecnologias">{{ tech }}</li>
+        </ul>
+        <p><strong>Sobre:</strong> {{ frontEndDev.sobre }}</p>
+        <p><strong>Hobbies:</strong> {{ frontEndDev.hobbies.join(', ') }}</p>
+      </div>
+    </section>
+
+    <!-- Card do Desenvolvedor Back-end -->
+    <section class="dev-card">
+      <img src="{{ backEndDev.foto }}" alt="{{ backEndDev.nome }}" class="foto-dev" />
+      <h3 class="nome-dev">{{ backEndDev.nome }}</h3>
+      <div class="info-dev">
+        <p><strong>Principais tecnologias:</strong></p>
+        <ul>
+          <li *ngFor="let tech of backEndDev.tecnologias">{{ tech }}</li>
+        </ul>
+        <p><strong>Sobre:</strong> {{ backEndDev.sobre }}</p>
+        <p><strong>Hobbies:</strong> {{ backEndDev.hobbies.join(', ') }}</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- Card do desenvolvimento do projeto -->
+  <section class="dev-card projeto-card">
+    <h3 class="nome-dev">Desenvolvimento do Projeto</h3>
+    <div class="info-dev">
+      <p>
+        Este projeto foi desenvolvido com o objetivo de criar uma plataforma robusta e moderna,
+        integrando tecnologias de ponta tanto no front-end quanto no back-end.
+        Entre os principais desafios, destacam-se a integração das APIs, a criação de uma interface intuitiva e responsiva,
+        e a otimização da performance para garantir uma excelente experiência ao usuário.
+      </p>
+      <p>
+        Trabalhamos em conjunto para superar obstáculos técnicos, implementar boas práticas de desenvolvimento,
+        e utilizar ferramentas que facilitassem o versionamento e a colaboração entre as equipes.
+      </p>
+    </div>
+  </section>
+</div>

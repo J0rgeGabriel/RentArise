@@ -1,0 +1,128 @@
+/* Container geral do componente */
+.quem-somos-container {
+  padding: 60px;
+  background: linear-gradient(to bottom right, #0A2036, #1E293B);
+  color: #f9f9f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+/* Título principal */
+.titulo-principal {
+  font-size: 42px;
+  margin-bottom: 40px;
+  color: #FEA34A;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Container dos cards dos desenvolvedores */
+.cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding: 0 20px; /* espaçamento lateral */
+}
+
+/* Card individual de cada dev */
+.dev-card {
+  background-color: #111827;
+  border-radius: 16px;
+  padding: 32px;
+  width: 320px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dev-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(254, 163, 74, 0.7);
+}
+
+/* Foto do dev */
+.foto-dev {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 3px solid #FEA34A;
+}
+
+/* Nome do dev */
+.nome-dev {
+  font-size: 24px;
+  color: #FEA34A;
+  margin-bottom: 12px;
+}
+
+/* Informações dentro do card do dev */
+.info-dev {
+  text-align: left;
+  font-size: 16px;
+  width: 100%;
+}
+
+.info-dev ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 8px 0;
+}
+
+.info-dev li::before {
+  content: "• ";
+  color: #FEA34A;
+  margin-right: 4px;
+}
+
+/* Card do projeto abaixo dos devs */
+.projeto-card {
+  max-width: 900px;          /* maior largura para ficar retangular */
+  margin: 40px auto 0 auto;
+  background-color: #111827;
+  border-radius: 16px;
+  padding: 20px 40px;        /* menos padding vertical, mais horizontal */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  color: #e0e0e0;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.5;
+  transition: box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;       /* centraliza verticalmente */
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.projeto-card:hover {
+  box-shadow: 0 16px 40px rgba(254, 163, 74, 0.7);
+}
+
+/* Texto dentro do card do projeto */
+.projeto-card p {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  /* Cards dos devs ficam em coluna no mobile */
+  .cards-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 10px;
+  }
+
+  /* Projeto card fica com padding menor no mobile */
+  .projeto-card {
+    max-width: 100%;
+    padding: 16px 20px;
+    flex-direction: column;
+  }
+}
+
