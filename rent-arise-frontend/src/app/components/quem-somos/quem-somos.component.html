@@ -1,43 +1,50 @@
-<div class="about-container">
-  <h2><strong>Quem Somos</strong></h2>
-  <p>
-    A RentArise nasceu com o propósito de transformar a maneira como as pessoas acessam ferramentas,<br />
-    equipamentos e soluções temporárias.<br />
-    Nossa plataforma conecta clientes a produtos de qualidade com praticidade, agilidade e confiança.<br />
-    Estamos em constante crescimento, impulsionados pelo nosso compromisso com a inovação e a melhoria contínua da experiência do cliente.<br />
-    Na RentArise, acreditamos que alugar equipamentos deve ser um processo simples, rápido e seguro.
-  </p>
+<div class="quem-somos-container">
+  <h2 class="titulo-principal">Quem Somos</h2>
 
-  <h3>Desenvolvedores</h3>
-  <div class="devs">
-    <div class="dev-card">
-      <img src="https://img.icons8.com/ios-filled/100/000000/user.png" alt="Dev Icon" />
-      <strong>Jorge Gabriel</strong>
-      <div class="social-links">
-        <a href="#" target="_blank">
-          <img src="https://img.icons8.com/ios-filled/24/000000/linkedin.png" alt="LinkedIn" />
-          LinkedIn
-        </a>
-        <a href="#" target="_blank">
-          <img src="https://img.icons8.com/ios-glyphs/24/000000/github.png" alt="GitHub" />
-          GitHub
-        </a>
+  <div class="cards-container">
+    <!-- Card do Desenvolvedor Front-end -->
+    <section class="dev-card">
+      <img src="{{ frontEndDev.foto }}" alt="{{ frontEndDev.nome }}" class="foto-dev" />
+      <h3 class="nome-dev">{{ frontEndDev.nome }}</h3>
+      <div class="info-dev">
+        <p><strong>Principais tecnologias:</strong></p>
+        <ul>
+          <li *ngFor="let tech of frontEndDev.tecnologias">{{ tech }}</li>
+        </ul>
+        <p><strong>Sobre:</strong> {{ frontEndDev.sobre }}</p>
+        <p><strong>Hobbies:</strong> {{ frontEndDev.hobbies.join(', ') }}</p>
       </div>
-    </div>
+    </section>
 
-    <div class="dev-card">
-      <img src="https://img.icons8.com/ios-filled/100/000000/user.png" alt="Dev Icon" />
-      <strong>Pedro Augusto</strong>
-      <div class="social-links">
-        <a href="#" target="_blank">
-          <img src="https://img.icons8.com/ios-filled/24/000000/linkedin.png" alt="LinkedIn" />
-          LinkedIn
-        </a>
-        <a href="#" target="_blank">
-          <img src="https://img.icons8.com/ios-glyphs/24/000000/github.png" alt="GitHub" />
-          GitHub
-        </a>
+    <!-- Card do Desenvolvedor Back-end -->
+    <section class="dev-card">
+      <img src="{{ backEndDev.foto }}" alt="{{ backEndDev.nome }}" class="foto-dev" />
+      <h3 class="nome-dev">{{ backEndDev.nome }}</h3>
+      <div class="info-dev">
+        <p><strong>Principais tecnologias:</strong></p>
+        <ul>
+          <li *ngFor="let tech of backEndDev.tecnologias">{{ tech }}</li>
+        </ul>
+        <p><strong>Sobre:</strong> {{ backEndDev.sobre }}</p>
+        <p><strong>Hobbies:</strong> {{ backEndDev.hobbies.join(', ') }}</p>
       </div>
-    </div>
+    </section>
   </div>
+
+  <!-- Card do desenvolvimento do projeto -->
+  <section class="dev-card projeto-card">
+    <h3 class="nome-dev">Desenvolvimento do Projeto</h3>
+    <div class="info-dev">
+      <p>
+        Este projeto foi desenvolvido com o objetivo de criar uma plataforma robusta e moderna,
+        integrando tecnologias de ponta tanto no front-end quanto no back-end.
+        Entre os principais desafios, destacam-se a integração das APIs, a criação de uma interface intuitiva e responsiva,
+        e a otimização da performance para garantir uma excelente experiência ao usuário.
+      </p>
+      <p>
+        Trabalhamos em conjunto para superar obstáculos técnicos, implementar boas práticas de desenvolvimento,
+        e utilizar ferramentas que facilitassem o versionamento e a colaboração entre as equipes.
+      </p>
+    </div>
+  </section>
 </div>
