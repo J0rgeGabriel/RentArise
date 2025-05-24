@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -10,17 +10,16 @@ import { Router } from '@angular/router';
   styleUrl: './login-cadastro.component.css'
 })
 export class LoginCadastroComponent {
-  isRegister: boolean = true;
-  showPassword: boolean = false;
-
   constructor(private router: Router) {}
 
-
+  @Input() isRegister: boolean = true;
+  showPassword: boolean = false;
 
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
 
   onSubmit() {
+    this.router.navigate(['/perfil']);
   }
 }
