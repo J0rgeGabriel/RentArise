@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Role } from "../enums/role.enum";
 
-@Entity({name: 'usuarios'})
+@Entity({name: 'users'})
 export class UserEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -24,6 +24,6 @@ export class UserEntity {
     @CreateDateColumn({name: 'created_at'})
     createdAt: string;
 
-    @Column({ type: 'text' })
+    @Column({ type: 'text', default: Role.USER })
     role: Role;
 }
