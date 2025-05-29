@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './app/user/user.module';
 import { AuthModule } from './app/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { ProductModule } from './app/product/product.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true}),
@@ -11,7 +12,7 @@ import { ConfigModule } from '@nestjs/config';
     database: ':memory:',
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true,
-  }), UserModule, AuthModule],
+  }), UserModule, AuthModule, ProductModule],
   controllers: [],
   providers: [],
 })

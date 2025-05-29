@@ -4,7 +4,7 @@ import { CreateUserDto } from "../user/dto/CreateUserDto";
 import { BadRequestException, Injectable } from "@nestjs/common";
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from "../user/entity/user.entity";
-import { LoginDto } from "./dto/LoginDto";
+import { LoginDto } from "./dto/login-dto";
 
 @Injectable()
 export class AuthService {
@@ -47,7 +47,7 @@ export class AuthService {
         }
         
         const access_token = await this.jwtService.signAsync({
-            sub: user.id,
+            userId: user.id,
             username: user.username,
             role: user.role,
         });
