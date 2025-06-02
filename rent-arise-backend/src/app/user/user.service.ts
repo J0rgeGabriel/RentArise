@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserDto } from './dto/CreateUserDto';
-import { UpdateUserDto } from './dto/UpdateUserDto';
+import { CreateUserDto } from './dto/create-user-dto';
+import { UpdateUserDto } from './dto/update-user-dto';
 
 @Injectable()
 export class UserService {
@@ -28,8 +28,10 @@ export class UserService {
         }
     }
 
-    async findAll(): Promise<UserEntity[]> {
-        return await this.userRepository.find();
+    async findAll(): Promise<Partial<UserEntity>[]> {
+        return this.userRepository.find({
+            select: ['id', 'fullname', 'username', 'email', 'cpf', 'role', 'createdAt'],
+        });
     }
 
     async findByUsername(username: string): Promise<UserEntity | null> {
@@ -48,7 +50,8 @@ export class UserService {
     }
 
     async deleteById(id: string) {
-        await this.findOne(id);
-        await this.userRepository.delete(id);
+        const user = await this.findOne(id);
+        
+        await this.userRepository.softDelete(id);
     }
 }
