@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { ProductEntity } from './entity/product.entity';
 import { Repository } from 'typeorm/repository/Repository';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,6 +8,8 @@ import { FileProductDto } from './dto/file-product-dto';
 import { JwtPayload } from '@supabase/supabase-js';
 import { UserService } from '../user/user.service';
 import { ProductResponseDto } from './dto/product-response-dto';
+import { UpdateProductDto } from './dto/update-product-dto';
+import { Role } from '../user/enums/role.enum';
 
 @Injectable()
 export class ProductService {
@@ -19,8 +21,8 @@ export class ProductService {
         private readonly userService: UserService,
     ) {}
 
-    async create(createDto: CreateProductDto, file?: FileProductDto, payload?: JwtPayload): Promise<ProductResponseDto> {
-        const user = await this.userService.findByUsername(payload?.username);
+    async create(createDto: CreateProductDto, payload: JwtPayload, file?: FileProductDto): Promise<ProductResponseDto> {
+        const user = await this.userService.findByUsername(payload.username);
 
         if (!user) {
             throw new NotFoundException('User not found.');
@@ -58,11 +60,52 @@ export class ProductService {
         }
     }
 
-    async findAll(): Promise<ProductEntity[]> {
+    async findAll(payload: JwtPayload): Promise<ProductEntity[]> {
+        const user = await this.userService.findByUsername(payload.username);
+
         return await this.productRepository
             .createQueryBuilder('product')
             .leftJoinAndSelect('product.user', 'user')
-            .select(['product', 'user.id', 'user.username', 'user.role',])
+            .select(['product', 'user.id', 'user.username', 'user.role'])
+            .where('user.id != :userId', { userId: user?.id })
             .getMany();
+    }
+
+    async findAllMyProducts(payload: JwtPayload): Promise<ProductEntity[]> {
+        const user = await this.userService.findByUsername(payload.username);
+
+        return await this.productRepository
+            .createQueryBuilder('product')
+            .leftJoinAndSelect('product.user', 'user')
+            .select(['product', 'user.id', 'user.username', 'user.role'])
+            .where('user.id = :userId', { userId: user?.id })
+            .getMany();
+    }
+
+    async update(id: string, updateDto: UpdateProductDto, payload: JwtPayload){
+        const [user, product] = await Promise.all([
+            this.userService.findByUsername(payload.username),
+            this.findOne(id),
+        ]);
+
+        if (product.user.id !== user?.id) {
+            throw new ForbiddenException('Not allowed to update a product you did not create.');
+        }
+
+        this.productRepository.merge(product, updateDto);
+        return await this.productRepository.save(product);
+    }
+
+    async deleteById(id: string, payload: JwtPayload) {
+        const [user, product] = await Promise.all([
+            this.userService.findByUsername(payload.username),
+            this.findOne(id),
+        ]);
+
+        if (product.user.id !== user?.id && user?.role !== Role.ADMIN) {
+            throw new ForbiddenException('Not allowed to delete a product you did not create.');
+        }
+
+        return await this.productRepository.softDelete(id);
     }
 }

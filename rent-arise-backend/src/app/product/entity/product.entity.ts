@@ -1,5 +1,5 @@
 import { UserEntity } from "src/app/user/entity/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity({name: 'products'})
@@ -19,6 +19,12 @@ export class ProductEntity {
     @Column({ type: 'simple-json', nullable: true })
     listPhotos: string[];
 
+    @CreateDateColumn({ name: 'created_at' })
+    createdAt: Date;
+
+    @DeleteDateColumn({ name: 'deleted_at' })
+    deletedAt?: Date;
+    
     @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'user_id' })
     user: UserEntity;

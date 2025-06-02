@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateProductDto } from './dto/create-product-dto';
@@ -6,16 +6,55 @@ import { FileProductDto } from './dto/file-product-dto';
 import { CurrentUser } from '../decorators/current-user.decorator';
 import { JwtPayload } from '@supabase/supabase-js';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { UpdateProductDto } from './dto/update-product-dto';
+import { DocCreateProduct, DocDeleteProduct, DocGetAvailableProducts, DocGetMyProducts, DocShowProduct, DocUpdateProduct } from './docs/product.docs';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('api/products')
+@ApiTags('Products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
+  @DocCreateProduct()
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
-  async create(@Body() createDto: CreateProductDto, @UploadedFile() file: FileProductDto, @CurrentUser() payload: JwtPayload,) {
+  async create(@Body() createDto: CreateProductDto, @UploadedFile() file: FileProductDto, @CurrentUser() payload: JwtPayload) {
+    return this.productService.create(createDto, payload, file);
+  }
 
-    return this.productService.create(createDto, file, payload);
+  @Get('/available')
+  @DocGetAvailableProducts()
+  @UseGuards(JwtAuthGuard)
+  async findAll(@CurrentUser() payload: JwtPayload) {
+    return this.productService.findAll(payload);
+  }
+
+  @Get('/my')
+  @DocGetMyProducts()
+  @UseGuards(JwtAuthGuard)
+  async findAllMyProducts(@CurrentUser() payload: JwtPayload) {
+    return this.productService.findAllMyProducts(payload);
+  }
+
+  @Get(':id')
+  @DocShowProduct()
+  @UseGuards(JwtAuthGuard)
+  async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.productService.findOne(id);
+  }
+
+  @Put(':id')
+  @DocUpdateProduct()
+  @UseGuards(JwtAuthGuard)
+  async update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateDto: UpdateProductDto, @CurrentUser() payload: JwtPayload) {
+    return this.productService.update(id, updateDto, payload);
+  }
+  
+  @Delete(':id')
+  @DocDeleteProduct()
+  @UseGuards(JwtAuthGuard)
+  async delete(@Param('id', new ParseUUIDPipe()) id: string, @CurrentUser() payload: JwtPayload) {
+    await this.productService.deleteById(id, payload);
   }
 }

@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UpdateUserDto } from './dto/UpdateUserDto';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UpdateUserDto } from './dto/update-user-dto';
+import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../authorization/roles/roles.decorator';
 import { Role } from './enums/role.enum';
@@ -9,7 +9,7 @@ import { RolesGuard } from '../authorization/roles/roles.guard';
 import { DocDeleteUser, DocGetAllUsers, DocShowUser, DocUpdateUser } from './docs/user.docs';
 
 @Controller('api/users')
-@ApiTags('users')
+@ApiTags('Users')
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
@@ -17,14 +17,14 @@ export class UserController {
     @DocGetAllUsers()
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(Role.ADMIN)
-    async index() {
+    async findAll() {
         return await this.userService.findAll();
     }
 
     @Get(':id')
     @DocShowUser()
     @UseGuards(JwtAuthGuard)
-    async show(@Param('id', new ParseUUIDPipe()) id: string){
+    async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
         return await this.userService.findOne(id);
     }
 
@@ -38,7 +38,7 @@ export class UserController {
     @Delete(':id')
     @DocDeleteUser()
     @UseGuards(JwtAuthGuard)
-    async destroy(@Param('id', new ParseUUIDPipe()) id: string) {
+    async delete(@Param('id', new ParseUUIDPipe()) id: string) {
         await this.userService.deleteById(id);
     }
 }
