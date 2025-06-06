@@ -4,6 +4,7 @@ import { UserModule } from './app/user/user.module';
 import { AuthModule } from './app/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { ProductModule } from './app/product/product.module';
+import { ContractModule } from './app/contract/contract.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true}),
@@ -12,7 +13,7 @@ import { ProductModule } from './app/product/product.module';
     database: ':memory:',
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true,
-  }), UserModule, AuthModule, ProductModule],
+  }), UserModule, AuthModule, ProductModule, ContractModule],
   controllers: [],
   providers: [],
 })

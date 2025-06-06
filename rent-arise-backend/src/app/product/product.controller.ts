@@ -12,12 +12,12 @@ import { ApiTags } from '@nestjs/swagger';
 
 @Controller('api/products')
 @ApiTags('Products')
+@UseGuards(JwtAuthGuard)
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
   @DocCreateProduct()
-  @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   async create(@Body() createDto: CreateProductDto, @UploadedFile() file: FileProductDto, @CurrentUser() payload: JwtPayload) {
     return this.productService.create(createDto, payload, file);
@@ -25,35 +25,30 @@ export class ProductController {
 
   @Get('/available')
   @DocGetAvailableProducts()
-  @UseGuards(JwtAuthGuard)
   async findAll(@CurrentUser() payload: JwtPayload) {
     return this.productService.findAll(payload);
   }
 
   @Get('/my')
   @DocGetMyProducts()
-  @UseGuards(JwtAuthGuard)
   async findAllMyProducts(@CurrentUser() payload: JwtPayload) {
     return this.productService.findAllMyProducts(payload);
   }
 
   @Get(':id')
   @DocShowProduct()
-  @UseGuards(JwtAuthGuard)
   async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.productService.findOne(id);
   }
 
   @Put(':id')
   @DocUpdateProduct()
-  @UseGuards(JwtAuthGuard)
   async update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateDto: UpdateProductDto, @CurrentUser() payload: JwtPayload) {
     return this.productService.update(id, updateDto, payload);
   }
   
   @Delete(':id')
   @DocDeleteProduct()
-  @UseGuards(JwtAuthGuard)
   async delete(@Param('id', new ParseUUIDPipe()) id: string, @CurrentUser() payload: JwtPayload) {
     await this.productService.deleteById(id, payload);
   }
