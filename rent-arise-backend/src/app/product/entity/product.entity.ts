@@ -13,6 +13,9 @@ export class ProductEntity {
     @Column({ type: 'text' })
     description: string;
 
+    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    pricePerDay: number;
+    
     @Column({ nullable: true})
     mainPhoto: string;
 

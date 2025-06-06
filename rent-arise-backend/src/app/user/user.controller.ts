@@ -10,12 +10,13 @@ import { DocDeleteUser, DocGetAllUsers, DocShowUser, DocUpdateUser } from './doc
 
 @Controller('api/users')
 @ApiTags('Users')
+@UseGuards(JwtAuthGuard)
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get()
     @DocGetAllUsers()
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(RolesGuard)
     @Roles(Role.ADMIN)
     async findAll() {
         return await this.userService.findAll();
@@ -23,21 +24,18 @@ export class UserController {
 
     @Get(':id')
     @DocShowUser()
-    @UseGuards(JwtAuthGuard)
     async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
         return await this.userService.findOne(id);
     }
 
     @Put(':id')
     @DocUpdateUser()
-    @UseGuards(JwtAuthGuard)
     async update(@Param('id', new ParseUUIDPipe()) id: string, @Body() body: UpdateUserDto) {
         return await this.userService.update(id, body);
     }
 
     @Delete(':id')
     @DocDeleteUser()
-    @UseGuards(JwtAuthGuard)
     async delete(@Param('id', new ParseUUIDPipe()) id: string) {
         await this.userService.deleteById(id);
     }

@@ -4,6 +4,8 @@ export class ProductResponseDto {
 
     description: string;
 
+    pricePerDay: number;
+    
     mainPhoto?: string;
 
     listPhotos?: string[];
