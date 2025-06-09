@@ -7,13 +7,22 @@ import { ProductModule } from './app/product/product.module';
 import { ContractModule } from './app/contract/contract.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true}),
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
-    type: 'sqlite',
-    database: ':memory:',
-    entities: [__dirname + '/**/*.entity{.ts,.js}'],
-    synchronize: true,
-  }), UserModule, AuthModule, ProductModule, ContractModule],
+      type: 'postgres',
+      url: process.env.SUPABASE_BD_URL,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: true,
+    }),
+    UserModule,
+    AuthModule,
+    ProductModule,
+    ContractModule,
+  ],
   controllers: [],
   providers: [],
 })

@@ -25,10 +25,10 @@ export class ContractEntity {
     @JoinColumn({ name: 'tenant_id' })
     tenant: UserEntity;
     
-    @Column({ type: 'datetime', name: 'start_date' })
+    @Column({ type: 'timestamp', name: 'start_date' })
     startDate: Date;
 
-    @Column({ type: 'datetime', name: 'end_date' })
+    @Column({ type: 'timestamp', name: 'end_date' })
     endDate: Date;
 
     @CreateDateColumn({ name: 'created_at' })
