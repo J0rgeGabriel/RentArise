@@ -5,11 +5,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateProductDto } from './dto/create-product-dto';
 import { UploadService } from './upload.service';
 import { FileProductDto } from './dto/file-product-dto';
-import { JwtPayload } from '@supabase/supabase-js';
 import { UserService } from '../user/user.service';
 import { ProductResponseDto } from './dto/product-response-dto';
 import { UpdateProductDto } from './dto/update-product-dto';
 import { Role } from '../user/enums/role.enum';
+import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
 
 @Injectable()
 export class ProductService {

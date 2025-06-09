@@ -5,6 +5,7 @@ import { AuthModule } from './app/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { ProductModule } from './app/product/product.module';
 import { ContractModule } from './app/contract/contract.module';
+import { StatisticsModule } from './app/statistics/statistics.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ContractModule } from './app/contract/contract.module';
     AuthModule,
     ProductModule,
     ContractModule,
+    StatisticsModule
   ],
   controllers: [],
   providers: [],

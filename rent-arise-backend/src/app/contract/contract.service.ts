@@ -214,4 +214,15 @@ export class ContractService {
         
         await this.contractRepository.softDelete(id);
     }
+
+    async findContractsByMyProducts(userId: string): Promise<ContractEntity[]> {
+        return await this.contractRepository.createQueryBuilder('contract')
+            .leftJoinAndSelect('contract.product', 'product')
+            .select([
+                'contract',
+                'product.id',
+            ])
+            .where('product.userId = :userId', { userId })
+            .getMany();
+    }
 }

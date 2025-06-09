@@ -4,11 +4,11 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateProductDto } from './dto/create-product-dto';
 import { FileProductDto } from './dto/file-product-dto';
 import { CurrentUser } from '../decorators/current-user.decorator';
-import { JwtPayload } from '@supabase/supabase-js';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateProductDto } from './dto/update-product-dto';
 import { DocCreateProduct, DocDeleteProduct, DocGetAvailableProducts, DocGetMyProducts, DocShowProduct, DocUpdateProduct } from './docs/product.docs';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
 
 @Controller('api/products')
 @ApiTags('Products')
