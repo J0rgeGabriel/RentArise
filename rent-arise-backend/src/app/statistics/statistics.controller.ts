@@ -8,7 +8,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 export class StatisticsController {
   constructor(private readonly statisticsService: StatisticsService) {}
 
-  @Get()
+  @Get('/me')
   async getStatistics(@CurrentUser() payload) {
     return await this.statisticsService.getFullStatistics(payload);
   }
