@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule, Routes } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css'
 })
 export class FooterComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   redirect(event: Event) {
     event.preventDefault();

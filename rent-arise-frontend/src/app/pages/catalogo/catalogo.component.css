@@ -1,0 +1,209 @@
+.catalogo-container {
+  padding: 60px;
+  background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 50%, #80deea 100%);
+  color: #2c3e50;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de partículas no fundo */
+.catalogo-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(254, 163, 74, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(254, 163, 74, 0.05) 0%, transparent 50%),
+    linear-gradient(45deg, rgba(255, 255, 255, 0.8) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+h2 {
+  font-size: 42px;
+  margin-bottom: 40px;
+  color: #2c3e50;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: inline-block;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #FEA34A, transparent);
+  animation: glow 2s infinite;
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.search-container {
+  margin: 20px auto;
+  max-width: 600px;
+  padding: 0 20px;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 15px 25px;
+  font-size: 16px;
+  border: 2px solid #FEA34A;
+  border-radius: 30px;
+  outline: none;
+  transition: all 0.3s ease;
+  background-color: white;
+  color: #2c3e50;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.search-input:focus {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(254, 163, 74, 0.2);
+  border-color: #ff9800;
+}
+
+.search-input::placeholder {
+  color: #a0a0a0;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus::placeholder {
+  opacity: 0.7;
+  transform: translateX(10px);
+}
+
+.produtos-section {
+  margin-bottom: 40px;
+}
+
+.produtos-section h3 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.5em;
+}
+
+.produtos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 40px;
+  margin-top: 40px;
+  padding: 0 20px;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Animação de entrada para os cards */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+app-product-card {
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+app-product-card:hover {
+  z-index: 2;
+}
+
+app-product-card:nth-child(1) { animation-delay: 0.1s; }
+app-product-card:nth-child(2) { animation-delay: 0.2s; }
+app-product-card:nth-child(3) { animation-delay: 0.3s; }
+app-product-card:nth-child(4) { animation-delay: 0.4s; }
+app-product-card:nth-child(5) { animation-delay: 0.5s; }
+app-product-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* Efeito de brilho no fundo */
+.catalogo-container::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(circle at center, rgba(254, 163, 74, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  animation: pulse 8s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+  50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.5; }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .catalogo-container {
+    padding: 30px 20px;
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+
+  .search-container {
+    padding: 0 10px;
+  }
+
+  .produtos-grid {
+    gap: 20px;
+    padding: 0 10px;
+  }
+}
+
+/* Removido estilos .produto-card para evitar conflito com o ProductCardComponent */
+/*
+.produto-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: left;
+  box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.1);
+}
+
+.produto-card img.produto-imagem {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.produto-card h3 {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+
+.produto-card p {
+  font-size: 0.9em;
+  color: #666;
+}
+*/

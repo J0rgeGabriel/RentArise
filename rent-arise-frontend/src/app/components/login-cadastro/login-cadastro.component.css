@@ -78,6 +78,37 @@ input:focus {
   color: #555;
 }
 
+.login-method-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.toggle-method {
+  background: none;
+  border: none;
+  color: #003366;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 5px;
+}
+
+.toggle-method:hover {
+  color: #f7931e;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 1px solid #ffcdd2;
+}
+
 .submit-btn {
   margin-top: 10px;
   background-color: #f7931e;

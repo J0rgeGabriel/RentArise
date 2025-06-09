@@ -1,0 +1,19 @@
+<app-header></app-header>
+<div class="catalogo-container">
+  <h2>Catálogo de Produtos</h2>
+
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="filterProducts()"
+      placeholder="Pesquisar produtos..."
+      class="search-input"
+    >
+  </div>
+
+  <div class="produtos-grid">
+    <app-product-card *ngFor="let produto of produtosFiltrados" [produto]="produto"></app-product-card>
+  </div>
+</div>
+<app-footer></app-footer>
