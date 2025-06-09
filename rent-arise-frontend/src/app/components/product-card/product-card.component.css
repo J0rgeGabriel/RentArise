@@ -1,0 +1,142 @@
+.product-card {
+  background-color: #111827;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(254, 163, 74, 0.4);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #f9f9f9;
+  min-height: 300px;
+  min-width: 250px;
+  box-sizing: border-box;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(254, 163, 74, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(254, 163, 74, 0.7);
+}
+
+.product-card:hover::before {
+  transform: translateX(100%);
+}
+
+.product-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  border: 2px solid #FEA34A;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+  border-color: #ff9800;
+}
+
+.product-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.2));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover .product-image::after {
+  opacity: 1;
+}
+
+.product-details {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.product-name {
+  font-size: 1.3em;
+  color: #FEA34A;
+  margin-bottom: 8px;
+  position: relative;
+  display: inline-block;
+}
+
+.product-name::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #FEA34A;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: right;
+}
+
+.product-card:hover .product-name::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.product-description {
+  font-size: 1.1em;
+  color: #f9f9f9;
+  margin-bottom: 0;
+  line-height: 1.5;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover .product-description {
+  opacity: 1;
+}
+
+/* Efeito de brilho nos cantos */
+.product-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(254, 163, 74, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.product-card:hover::after {
+  opacity: 1;
+  animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

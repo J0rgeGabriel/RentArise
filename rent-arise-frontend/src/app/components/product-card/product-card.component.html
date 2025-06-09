@@ -1,0 +1,11 @@
+<div class="product-card">
+  <img [src]="produto.mainPhoto || 'https://via.placeholder.com/270x180?text=Sem+Imagem'"
+       alt="Imagem do Produto"
+       class="product-image"
+       (error)="onImageError($event)">
+  <div class="product-details">
+    <h3 class="product-name">{{ produto.name }}</h3>
+    <p class="product-description">{{ produto.description }}</p>
+    <!-- <p class="product-price">Preço: R$ {{ produto.preco }} / dia</p> -->
+  </div>
+</div>

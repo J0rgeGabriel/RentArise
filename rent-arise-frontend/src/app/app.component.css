@@ -1,0 +1,5 @@
+main {
+  min-height: calc(100vh - 120px); /* Ajuste conforme a altura do seu header e footer */
+  padding: 20px;
+  background-color: #f8f9fa;
+}
