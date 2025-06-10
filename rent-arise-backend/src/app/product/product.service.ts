@@ -67,7 +67,6 @@ export class ProductService {
             .createQueryBuilder('product')
             .leftJoinAndSelect('product.user', 'user')
             .select(['product', 'user.id', 'user.username', 'user.role'])
-            .where('user.id != :userId', { userId: user?.id })
             .getMany();
     }
 

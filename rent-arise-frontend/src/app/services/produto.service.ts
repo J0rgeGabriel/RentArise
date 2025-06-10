@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
+import { Produto } from '../shared/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -25,40 +25,39 @@ export class ProdutoService {
     return headers;
   }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.status === 401) {
-      localStorage.removeItem('accessToken');
-    }
-    return throwError(() => error);
+  criarProduto(produto: any): Observable<Produto> {
+    return this.http.post<Produto>(this.apiUrl, produto, {
+      headers: this.getHeaders()
+    });
   }
 
-  criarProduto(produto: any): Observable<any> {
-    return this.http.post(this.apiUrl, produto, { headers: this.getHeaders() })
-      .pipe(catchError(this.handleError.bind(this)));
+  listarProdutos(): Observable<Produto[]> {
+    return this.http.get<Produto[]>(`${this.apiUrl}/available`, {
+      headers: this.getHeaders()
+    });
   }
 
-  listarProdutos(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/available`, { headers: this.getHeaders() })
-      .pipe(catchError(this.handleError.bind(this)));
+  listarMeusProdutos(): Observable<Produto[]> {
+    return this.http.get<Produto[]>(`${this.apiUrl}/my`, {
+      headers: this.getHeaders()
+    });
   }
 
-  listarMeusProdutos(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/my`, { headers: this.getHeaders() })
-      .pipe(catchError(this.handleError.bind(this)));
+  obterProduto(id: number): Observable<Produto> {
+    return this.http.get<Produto>(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
   }
 
-  obterProduto(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`, { headers: this.getHeaders() })
-      .pipe(catchError(this.handleError.bind(this)));
+  atualizarProduto(id: number, produto: any): Observable<Produto> {
+    return this.http.put<Produto>(`${this.apiUrl}/${id}`, produto, {
+      headers: this.getHeaders()
+    });
   }
 
-  atualizarProduto(id: number, produto: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, produto, { headers: this.getHeaders() })
-      .pipe(catchError(this.handleError.bind(this)));
-  }
-
-  excluirProduto(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getHeaders() })
-      .pipe(catchError(this.handleError.bind(this)));
+  excluirProduto(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
   }
 }

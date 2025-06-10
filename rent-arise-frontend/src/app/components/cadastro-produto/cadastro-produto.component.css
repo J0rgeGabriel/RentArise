@@ -1,73 +1,251 @@
-.produto-form {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+body, .cadastro-produto-bg {
+  background: linear-gradient(to bottom right, #0A2036, #1E293B);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #f9f9f9;
+}
+
+.cadastro-produto-bg {
+  padding: 60px;
+  background: linear-gradient(to bottom right, #0A2036, #1E293B);
+  color: #f9f9f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.cadastro-produto-card {
+  background-color: #111827;
+  border-radius: 16px;
+  padding: 32px;
+  width: 350px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cadastro-produto-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(254, 163, 74, 0.7);
+}
+
+h2 {
+  font-size: 32px;
+  margin-bottom: 24px;
+  color: #FEA34A;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 20px;
+  width: 100%;
 }
 
-label {
+.form-group label {
   display: block;
-  margin-bottom: 0.5rem;
-  color: #0A2036;
-  font-weight: 500;
+  margin-bottom: 8px;
+  color: #ccc;
+  font-weight: bold;
 }
 
-input[type="text"],
-input[type="number"],
-textarea {
+.form-group input[type="text"],
+.form-group textarea,
+.form-group input[type="file"],
+.form-group input[type="number"] {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 12px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background-color: #1f2937;
+  color: #fff;
+  box-sizing: border-box;
   font-size: 1rem;
-  transition: border-color 0.3s ease;
 }
 
-input[type="text"]:focus,
-input[type="number"]:focus,
-textarea:focus {
-  outline: none;
-  border-color: #FEA34A;
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type="file"] {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px dashed #ddd;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-}
-
-.submit-button {
-  width: 100%;
-  padding: 1rem;
-  background-color: #0A2036;
-  color: white;
+.form-group input[type="file"]::file-selector-button {
+  background-color: #f39c12;
+  color: #111827;
+  padding: 8px 12px;
   border: none;
   border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-top: 1rem;
 }
 
-.submit-button:hover {
-  background-color: #1a2f46;
+.form-group input[type="file"]::file-selector-button:hover {
+  background-color: #e67e22;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.invalid-feedback {
+  color: #e74c3c;
+  font-size: 0.85em;
+  margin-top: 5px;
+}
+
+.is-invalid {
+  border-color: #e74c3c !important;
+}
+
+.btn-cadastro-produto {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #f39c12;
+  color: #111827;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  margin-top: 20px;
+}
+
+.btn-cadastro-produto:hover {
+  background-color: #e67e22;
+  transform: translateY(-2px);
+}
+
+.btn-cadastro-produto:active {
+  transform: translateY(0);
+}
+
+.cadastro-produto-preview {
+  background: #111827;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  padding: 32px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ccc;
+}
+
+.cadastro-produto-preview h3 {
+  color: #FEA34A;
+  margin-bottom: 20px;
+}
+
+.product-card {
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: left;
+  box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 270px;
+  background-color: #1f2937;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.product-details {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 50px;
+  padding-top: 5px;
+  box-sizing: border-box;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.product-details h3 {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+  color: #fff !important;
+  word-break: break-word;
+  line-height: 1.3;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.product-details p {
+  font-size: 0.9em;
+  color: #ccc !important;
+  word-break: break-word;
+  line-height: 1.4;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+@media (max-width: 900px) {
+  .cadastro-produto-bg {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .cadastro-produto-card, .cadastro-produto-preview {
+    width: 90%;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cadastro-produto-bg {
+    padding: 40px 20px;
+  }
+
+  .cadastro-produto-card {
+    padding: 20px;
+    margin: 1rem auto;
+  }
+
+  .form-group-inline {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-group label {
+    font-size: 1rem;
+  }
+
+  .cadastro-produto-card h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .btn-cadastro-produto {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+
+  .form-group input[type="file"]::file-selector-button {
+    margin-right: 10px;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 500px) {
+  .cadastro-produto-bg {
+    padding: 20px 10px;
+  }
+
+  .cadastro-produto-card {
+    border: 5px solid #FEA34A;
+  }
+
+  .form-group-inline > div {
+    flex: 1 1 100%;
+  }
 }

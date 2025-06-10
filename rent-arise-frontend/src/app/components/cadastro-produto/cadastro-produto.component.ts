@@ -1,42 +1,83 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ProdutoService } from '../../services/produto.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-cadastro-produto',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,  ReactiveFormsModule],
   templateUrl: './cadastro-produto.component.html',
   styleUrl: './cadastro-produto.component.css'
 })
 export class CadastroProdutoComponent {
-  produto = {
-    nome: '',
-    descricao: '',
-    dono: '',
-    valorDia: 0,
-    fotoPrincipal: '',
-    fotosAdicionais: [] as string[]
-  };
+  produtoForm: FormGroup;
+  submitted = false;
+  imagemPrincipal: File | null = null;
+  imagemPreviewUrl: string | ArrayBuffer | null = null;
 
-  onFileSelected(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      // Aqui será implementada a lógica de upload da foto principal
-      console.log('Foto principal selecionada:', file.name);
+  constructor(
+    private formBuilder: FormBuilder,
+    private produtoService: ProdutoService,
+    private router: Router,
+    private authService: AuthService
+  ) {
+    this.produtoForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      pricePerDay: ['', [Validators.required, Validators.min(0.01)]]
+    });
+  }
+
+  ngOnInit(): void {
+    const token = this.authService.getToken();
+    if (!token) {
+      this.router.navigate(['/login']);
     }
   }
 
-  onMultipleFilesSelected(event: Event) {
-    const files = (event.target as HTMLInputElement).files;
-    if (files) {
-      // Aqui será implementada a lógica de upload das fotos adicionais
-      console.log('Fotos adicionais selecionadas:', files.length);
+  get f() {
+    return this.produtoForm.controls;
+  }
+
+  onFileChangePrincipal(event: any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.imagemPrincipal = file;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imagemPreviewUrl = e.target?.result ?? null;
+      };
+      reader.readAsDataURL(file);
     }
   }
 
   onSubmit() {
-    console.log('Produto:', this.produto);
-    // Aqui será implementada a lógica de envio para o backend
+    this.submitted = true;
+
+    if (this.produtoForm.invalid) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', this.produtoForm.get('name')?.value);
+    formData.append('description', this.produtoForm.get('description')?.value);
+    formData.append('pricePerDay', this.produtoForm.get('pricePerDay')?.value);
+
+    if (this.imagemPrincipal) {
+      formData.append('file', this.imagemPrincipal);
+    }
+
+    this.produtoService.criarProduto(formData).subscribe({
+      next: (response) => {
+        console.log('Produto cadastrado com sucesso:', response);
+        this.router.navigate(['/produtos']);
+      },
+      error: (error) => {
+        console.error('Erro ao cadastrar produto:', error);
+      }
+    });
   }
 }

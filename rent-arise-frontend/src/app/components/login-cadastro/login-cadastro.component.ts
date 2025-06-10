@@ -32,6 +32,7 @@ export class LoginCadastroComponent {
   showPassword = false;
   useEmail = true;
   errorMessage = '';
+  isSubmitting = false;
 
   loginForm: LoginForm = {
     email: '',
@@ -44,7 +45,7 @@ export class LoginCadastroComponent {
     email: '',
     password: '',
     cpf: '',
-    role: 'USER'
+    role: 'user'
   };
 
   constructor(
@@ -58,66 +59,87 @@ export class LoginCadastroComponent {
 
   toggleLoginMethod() {
     this.useEmail = !this.useEmail;
-    if (this.useEmail) {
-      this.loginForm.email = '';
-      this.loginForm.username = undefined;
-    } else {
-      this.loginForm.username = '';
-      this.loginForm.email = undefined;
-    }
+    this.loginForm.email = '';
+    this.loginForm.username = '';
   }
 
   onSubmit() {
     this.errorMessage = '';
-
     if (this.isRegister) {
-      if (!this.registerForm.fullname || !this.registerForm.username ||
-          !this.registerForm.email || !this.registerForm.password || !this.registerForm.cpf) {
-        this.errorMessage = 'Por favor, preencha todos os campos obrigatórios.';
-        return;
-      }
-
-      this.authService.register(
-        this.registerForm.fullname,
-        this.registerForm.username,
-        this.registerForm.email,
-        this.registerForm.password,
-        this.registerForm.cpf
-      ).subscribe({
-        next: (response) => {
-          console.log('Cadastro bem-sucedido:', response);
-          if (response?.access_token) {
-            this.authService.setToken(response.access_token);
-          }
-          this.router.navigate(['/perfil']);
-        },
-        error: (error) => {
-          console.error('Erro no cadastro:', error);
-          this.errorMessage = error.error?.message || 'Erro ao realizar cadastro.';
-        }
-      });
+      this.register();
     } else {
-      if (!this.loginForm.password || (!this.loginForm.email && !this.loginForm.username)) {
-        this.errorMessage = 'Por favor, preencha todos os campos obrigatórios.';
-        return;
-      }
+      this.login();
+    }
+  }
 
-      const emailOrUsername = this.useEmail ? this.loginForm.email! : this.loginForm.username!;
-      console.log('Tentando login com:', { emailOrUsername, useEmail: this.useEmail });
+  login() {
+    const emailOrUsername = this.useEmail ? this.loginForm.email : this.loginForm.username;
 
-      this.authService.login(emailOrUsername, this.loginForm.password).subscribe({
-        next: (response) => {
-          console.log('Login bem-sucedido:', response);
-          if (response?.access_token) {
-            this.authService.setToken(response.access_token);
-          }
-          this.router.navigate(['/produtos']);
-        },
-        error: (error) => {
-          console.error('Erro no login:', error);
-          this.errorMessage = error.error?.message || 'Erro ao realizar login.';
+    if (!emailOrUsername || !this.loginForm.password) {
+      this.errorMessage = 'Por favor, preencha todos os campos obrigatórios.';
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    this.authService.login(emailOrUsername, this.loginForm.password).subscribe({
+      next: ({ token, user }) => {
+        this.isSubmitting = false;
+        console.log('Login bem-sucedido:', user);
+
+        if (token) {
+          this.authService.setToken(token);
         }
-      });
+
+        // Você pode salvar user em um estado local ou serviço, se quiser.
+        // Exemplo: this.currentUser = user;
+
+        this.router.navigate(['/produtos']);
+      },
+      error: (error) => {
+        this.isSubmitting = false;
+        console.error('Erro no login:', error);
+        this.errorMessage = error.error?.message || 'Erro ao realizar login.';
+      }
+    });
+  }
+
+  register() {
+    const { fullname, username, email, password, cpf } = this.registerForm;
+
+    if (!fullname || !username || !email || !password || !cpf) {
+      this.errorMessage = 'Por favor, preencha todos os campos obrigatórios.';
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    this.authService.register(fullname, username, email, password, cpf).subscribe({
+      next: (user) => {
+        this.isSubmitting = false;
+        console.log('Cadastro bem-sucedido:', user);
+
+        // Como o register já salva o token e busca o user, não precisa chamar setToken aqui.
+
+        this.router.navigate(['/perfil']);
+      },
+      error: (error) => {
+        this.isSubmitting = false;
+        console.error('Erro no cadastro:', error);
+        this.errorMessage = error.error?.message || 'Erro ao realizar cadastro.';
+      }
+    });
+  }
+
+  isFormValid(): boolean {
+    if (this.isRegister) {
+      const { fullname, username, email, password, cpf } = this.registerForm;
+      return !!fullname && !!username && !!email && !!password && !!cpf;
+    } else {
+      const { email, username, password } = this.loginForm;
+      return this.useEmail
+        ? !!email && !!password
+        : !!username && !!password;
     }
   }
 }

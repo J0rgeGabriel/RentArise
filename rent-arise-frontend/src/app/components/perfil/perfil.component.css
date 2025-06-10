@@ -1,127 +1,229 @@
-.container {
-  max-width: 1400px;
-  margin: 60px auto;
-  padding: 40px;
+/* Estilos para o container principal da página de perfil */
+.profile-container {
+  max-width: 700px; /* Ajustando largura máxima para acomodar melhor o conteúdo */
+  margin: 40px auto;
+  padding: 30px; /* Aumentando padding interno */
+  background-color: #fff;
+  border-radius: 12px; /* Bordas mais arredondadas */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Sombra mais pronunciada */
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333; /* Cor de texto padrão */
 }
 
-.profile-info-block {
-  background-color: #0A2036;
-  border-radius: 16px;
-  padding: 40px;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
-  min-height: 700px;
-  box-sizing: border-box;
+/* Estilos para os títulos */
+h1, h2 {
+  color: #0A2036; /* Azul escuro do tema */
+  text-align: center;
+  margin-bottom: 25px;
 }
 
-.form-and-info {
+h1 {
+  font-size: 2.2em; /* Fonte maior para o título principal */
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.6em; /* Fonte maior para subtítulos */
+  margin-top: 35px;
+  text-align: left;
+  border-bottom: 2px solid #FEA34A; /* Borda laranja mais grossa */
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* Estilos para a área de exibição do perfil (ícone e nome) */
+.user-profile-display {
   display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  align-items: stretch;
-  width: 100%;
-}
-
-.form-section,
-.info-section {
-  flex: 1 1 500px;
-  background-color: #ebe9e9;
-  border-radius: 12px;
-  padding: 32px;
-  border: 10px solid #FEA34A;
-  box-sizing: border-box;
-  min-height: 500px;
-  transition: box-shadow 0.3s ease;
-}
-
-.form-section:hover,
-.info-section:hover {
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
-}
-
-.section-header {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  margin-bottom: 24px;
-}
-
-.section-header h2 {
-  font-size: 30px;
-  color: #111827;
-}
-
-.icon-user,
-.icon-info {
-  width: 36px;
-  height: 36px;
-}
-
-form label {
-  display: block;
-  margin-top: 18px;
-  font-size: 21px;
-  font-weight: 600;
-  color: #374151;
-}
-
-form input {
-  width: 100%;
-  padding: 10px 10px;
-  margin-top: 6px;
-  border: 1px solid #d1d5db;
+  flex-direction: column; /* Empilha ícone e nome verticalmente */
+  align-items: center; /* Centraliza itens */
+  margin-bottom: 40px; /* Mais espaço abaixo */
+  padding: 20px; /* Padding interno */
+  background-color: #f9f9f9; /* Fundo levemente cinza */
   border-radius: 8px;
-  font-size: 1rem;
-  background-color: #fefefe;
-  transition: border-color 0.3s;
-  box-sizing: border-box;
 }
 
-form input:focus {
+.selected-profile-icon {
+  width: 100px; /* Tamanho do ícone selecionado aumentado */
+  height: 100px;
+  border-radius: 50%; /* Ícone redondo */
+  margin-bottom: 15px; /* Espaço entre ícone e nome */
+  object-fit: cover;
+  border: 4px solid #FEA34A; /* Borda laranja mais grossa */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra no ícone */
+}
+
+.user-name {
+  font-size: 1.4em; /* Fonte maior para o nome */
+  color: #0A2036; /* Azul escuro para o nome */
+  font-weight: bold;
+}
+
+/* Estilos para o botão de editar ícone */
+.edit-button {
+  display: block;
+  margin: 30px auto; /* Mais espaço e centralização */
+  background-color: #FEA34A;
+  color: #0A2036;
+  padding: 12px 25px; /* Padding maior */
+  border: none;
+  border-radius: 25px; /* Botão mais arredondado */
+  font-size: 1.1rem; /* Fonte maior */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.edit-button:hover {
+  background-color: #f09a40;
+  transform: translateY(-2px); /* Leve levantamento no hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilos para a grade de ícones disponíveis */
+.available-icons-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Layout fixo de 3 colunas */
+  gap: 20px; /* Espaçamento maior entre os ícones */
+  padding: 20px; /* Padding interno maior */
+  border: 1px solid #ddd; /* Borda mais sutil */
+  border-radius: 8px;
+  margin-bottom: 30px; /* Mais espaço abaixo */
+  justify-items: center; /* Centraliza os itens na grade */
+}
+
+.profile-icon-option {
+  width: 120px; /* Tamanho dos ícones na grade aumentado */
+  height: 120px;
+  border-radius: 50%; /* Ícones redondos na grade */
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  border: 4px solid transparent;
+}
+
+.profile-icon-option:hover {
+  transform: scale(1.1); /* Zoom maior no hover */
   border-color: #FEA34A;
-  outline: none;
-  background-color: #ffffff;
+  box-shadow: 0 0 8px rgba(254, 163, 74, 0.5); /* Sombra laranja no hover */
 }
 
-.button-group {
+.profile-icon-option.selected {
+  border-color: #0A2036; /* Borda azul escura para o selecionado */
+  box-shadow: 0 0 10px rgba(10, 32, 54, 0.7); /* Sombra azul escura para destaque */
+  transform: scale(1.1); /* Manter levemente aumentado quando selecionado */
+}
+
+/* Estilos para os botões de ação (Salvar/Cancelar) */
+.edit-actions {
   display: flex;
-  gap: 16px;
+  justify-content: center; /* Centraliza os botões */
+  gap: 20px; /* Espaçamento maior */
   margin-top: 30px;
 }
 
-.button-group button {
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 600;
+.save-button, .cancel-button {
+  padding: 12px 30px; /* Padding maior */
   border: none;
-  border-radius: 8px;
-  background-color: #FEA34A;
-  color: white;
+  border-radius: 25px; /* Botões mais arredondados */
+  font-size: 1.1rem; /* Fonte maior */
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.button-group button:hover {
-  background-color: #0A2036;
-  transform: translateY(-1px);
+.save-button {
+  background-color: #FEA34A;
+  color: #0A2036;
 }
 
-.info-section p {
-  margin-bottom: 18px;
-  font-size: 21px;
-  line-height: 1.6;
-  color: #374151;
+.save-button:hover {
+  background-color: #f09a40;
+  transform: translateY(-2px);
 }
 
+.cancel-button {
+  background-color: #ccc;
+  color: #333;
+}
+
+.cancel-button:hover {
+  background-color: #bbb;
+  transform: translateY(-2px);
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
-  .form-and-info {
-    flex-direction: column;
+  .profile-container {
+    max-width: 95%;
+    padding: 20px;
   }
 
-  .form-section,
-  .info-section {
-    width: 100%;
+  h1 {
+    font-size: 1.8em;
+  }
+
+  h2 {
+    font-size: 1.3em;
+  }
+
+  .selected-profile-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .user-name {
+    font-size: 1.1em;
+  }
+
+  .available-icons-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); /* Ajusta grid para telas menores */
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .profile-icon-option {
+    width: 90px;
+    height: 90px;
+  }
+
+  .edit-button, .save-button, .cancel-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+
+  .edit-actions {
+    gap: 10px;
+    justify-content: space-around; /* Distribui botões em telas menores */
   }
 }
 
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5em;
+  }
 
+  h2 {
+    font-size: 1.1em;
+  }
+
+  .available-icons-grid {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); /* Ajusta grid para telas muito pequenas */
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .profile-icon-option {
+    width: 70px;
+    height: 70px;
+  }
+
+  .user-profile-display {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .selected-profile-icon {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}

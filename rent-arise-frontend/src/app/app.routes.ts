@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { CadastroProdutoComponent } from './pages/cadastro-produto/cadastro-produto.component';
+import { TelaCadastroProdutoComponent } from './pages/cadastro-produto/tela-cadastro-produto.component';
 import { SobreComponent } from './pages/sobre/sobre.component';
 import { CatalogoComponent } from './pages/catalogo/catalogo.component';
 // Removendo a importação de LoginCadastroComponent, pois não será usado nas rotas principais
@@ -11,7 +11,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'cadastro-produto', component: CadastroProdutoComponent },
+  { path: 'cadastro-produto', component: TelaCadastroProdutoComponent },
   { path: 'sobre', component: SobreComponent },
   { path: 'produtos', component: CatalogoComponent },
   // Removendo rotas para login e cadastro
