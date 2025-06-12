@@ -1,0 +1,570 @@
+:root {
+  /* Cores principais */
+  --color-primary: #0A2036;
+  --color-primary-light: #1E3A5F;
+  --color-secondary: #FF9F45;
+  --color-secondary-light: #FFB976;
+  --color-accent: #FF6B6B;
+  --color-accent-light: #FF8E8E;
+  --color-text-primary: #2D3748;
+  --color-text-secondary: #4A5568;
+  --color-background: #F7FAFC;
+  --color-background-secondary: #FFFFFF;
+  --color-border: #E2E8F0;
+  --color-shadow: rgba(10, 32, 54, 0.08);
+  --color-success: #48BB78;
+  --color-error: #EF4444;
+
+  /* Gradientes */
+  --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-light) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  --gradient-background: linear-gradient(135deg, #F7FAFC 0%, #EDF2F7 100%);
+  --gradient-overlay: linear-gradient(to bottom, rgba(10, 32, 54, 0.8) 0%, rgba(10, 32, 54, 0.4) 100%);
+
+  /* Espaçamentos */
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  --spacing-xl: 48px;
+  --spacing-xxl: 64px;
+
+  /* Bordas */
+  --border-radius-sm: 12px;
+  --border-radius-md: 16px;
+  --border-radius-lg: 24px;
+  --border-radius-xl: 32px;
+
+  /* Sombras */
+  --shadow-sm: 0 4px 6px -1px var(--color-shadow);
+  --shadow-md: 0 10px 15px -3px var(--color-shadow);
+  --shadow-lg: 0 20px 25px -5px var(--color-shadow);
+  --shadow-hover: 0 25px 30px -5px rgba(10, 32, 54, 0.15);
+  --shadow-inset: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+  /* Transições */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset e estilos base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-background);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Container principal */
+.produto-container {
+  min-height: 100vh;
+  padding: 60px;
+  background: #FFFFFF;
+  color: #2D3748;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de fundo - removido */
+.produto-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  background: none;
+  z-index: 0;
+}
+
+/* Estado de carregamento */
+.carregando {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.loading-text {
+  font-size: 1.4rem;
+  color: #0A2036;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loading-text::after {
+  content: '';
+  width: 24px;
+  height: 24px;
+  border: 3px solid #0A2036;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Container de detalhes do produto */
+.produto-detalhes {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  gap: 40px;
+  background: linear-gradient(to bottom right, #0A2036, #1E293B);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(10, 32, 54, 0.15);
+  position: relative;
+  z-index: 1;
+  animation: fadeInUp 0.5s ease;
+  color: #FFFFFF;
+}
+
+/* Coluna da imagem */
+.produto-imagem-container {
+  grid-area: imagem;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  aspect-ratio: 4/3;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.produto-imagem-container:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(254, 163, 74, 0.4);
+}
+
+.produto-imagem {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.produto-imagem-container:hover .produto-imagem {
+  transform: scale(1.05);
+}
+
+/* Coluna de informações */
+.produto-info-container {
+  grid-area: info;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.produto-nome {
+  font-size: 2.5rem;
+  color: #FEA34A;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.produto-nome::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 4px;
+  background: #FEA34A;
+  border-radius: 2px;
+}
+
+.produto-info {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.produto-info:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(254, 163, 74, 0.2);
+}
+
+.produto-info p {
+  margin: 12px 0;
+  font-size: 1.1rem;
+  color: #e0e0e0;
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.produto-info p strong {
+  color: #FEA34A;
+  min-width: 140px;
+  font-weight: 600;
+}
+
+/* Seção de aluguel */
+.aluguel-section {
+  grid-area: aluguel;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 35px;
+  border-radius: 16px;
+  color: #FFFFFF;
+  margin-top: 0; /* Ajuste para grid-area */
+  position: relative;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(254, 163, 74, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.aluguel-section:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 35px rgba(254, 163, 74, 0.2);
+}
+
+.aluguel-titulo {
+  font-size: 1.8rem;
+  color: #FEA34A;
+  font-weight: 600;
+  margin-bottom: 25px;
+  text-align: center;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.datas-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.data-input {
+  position: relative;
+}
+
+.data-input label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #e0e0e0;
+}
+
+.data-picker {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(254, 163, 74, 0.2);
+  border-radius: 12px;
+  color: #f9f9f9;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.data-picker:hover {
+  border-color: rgba(254, 163, 74, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.data-picker:focus {
+  outline: none;
+  border-color: #FEA34A;
+  box-shadow: 0 0 0 3px rgba(254, 163, 74, 0.2);
+}
+
+/* Resumo do aluguel */
+.resumo-aluguel {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 25px;
+  border-radius: 12px;
+  margin: 25px 0;
+  border: 1px solid rgba(254, 163, 74, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.resumo-aluguel:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.resumo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 1.1rem;
+  color: #e0e0e0;
+  border-bottom: 1px solid rgba(254, 163, 74, 0.1);
+}
+
+.resumo-item:last-child {
+  border-bottom: none;
+}
+
+.resumo-item.total {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px solid #FEA34A;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #FEA34A;
+}
+
+/* Botão de alugar */
+.btn-alugar {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #FEA34A 0%, #FF8A3D 100%);
+  color: #111827;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(254, 163, 74, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-alugar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s ease;
+}
+
+.btn-alugar:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(254, 163, 74, 0.4);
+}
+
+.btn-alugar:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.btn-alugar:disabled {
+  background: #4A5568;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Animações */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Botão voltar */
+.btn-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #FEA34A;
+  border: none;
+  border-radius: 12px;
+  color: #0A2036;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(254, 163, 74, 0.3);
+  grid-area: botao-voltar;
+  align-self: start;
+  justify-self: start;
+}
+
+.btn-voltar:hover {
+  transform: translateY(-2px);
+  background-color: #FF8A3D;
+  color: #0A2036;
+  box-shadow: 0 8px 25px rgba(254, 163, 74, 0.4);
+}
+
+.btn-voltar svg {
+  transition: transform 0.3s ease;
+}
+
+.btn-voltar:hover svg {
+  transform: translateX(-4px);
+}
+
+/* Responsividade */
+@media (min-width: 1025px) {
+  .produto-detalhes {
+    grid-template-columns: 1.2fr 0.8fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "botao-voltar botao-voltar"
+      "imagem       aluguel"
+      "info         aluguel";
+  }
+}
+
+@media (max-width: 1024px) {
+  .produto-detalhes {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "botao-voltar"
+      "imagem"
+      "info"
+      "aluguel";
+    max-width: 800px;
+  }
+
+  .produto-imagem-container {
+    max-height: 500px;
+  }
+
+  .produto-nome {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .produto-container {
+    padding: 30px 20px;
+  }
+
+  .produto-detalhes {
+    padding: 25px;
+    border-radius: 16px;
+  }
+
+  .produto-nome {
+    font-size: 2rem;
+  }
+
+  .datas-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .aluguel-section {
+    padding: 25px;
+  }
+
+  .aluguel-titulo {
+    font-size: 1.6rem;
+  }
+
+  .btn-voltar {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .produto-container {
+    padding: 20px 15px;
+  }
+
+  .produto-detalhes {
+    padding: 20px;
+    gap: 25px;
+  }
+
+  .produto-nome {
+    font-size: 1.8rem;
+  }
+
+  .produto-info {
+    padding: 20px;
+  }
+
+  .produto-info p {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .produto-info p strong {
+    min-width: auto;
+  }
+
+  .aluguel-section {
+    padding: 20px;
+  }
+
+  .resumo-aluguel {
+    padding: 20px;
+  }
+
+  .btn-alugar {
+    font-size: 1.1rem;
+    padding: 14px;
+  }
+}
+
+/* Melhorias de acessibilidade */
+.btn-alugar:focus-visible,
+.data-picker:focus-visible,
+.btn-voltar:focus-visible {
+  outline: 2px solid #FEA34A;
+  outline-offset: 2px;
+}
+
+/* Melhorias de usabilidade */
+.data-picker::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.data-picker::-webkit-calendar-picker-indicator:hover {
+  background-color: rgba(254, 163, 74, 0.2);
+}
+
+/* Estados de feedback */
+.data-picker:invalid {
+  border-color: #EF4444;
+}
+
+.data-picker:valid {
+  border-color: #48BB78;
+}
+
+.btn-alugar:active:not(:disabled) {
+  transform: translateY(1px);
+}

@@ -50,10 +50,10 @@ export class AuthService {
   }
 
   /** Cabeçalhos com token JWT para requisições autenticadas */
-  private getAuthHeaders(): HttpHeaders {
+  getAuthHeaders(): HttpHeaders {
     const token = this.getToken();
     return new HttpHeaders({
-      'Authorization': `Bearer ${token ?? ''}`,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
   }
@@ -61,21 +61,22 @@ export class AuthService {
   /** Realiza login, retorna token e usuário */
   login(emailOrUsername: string, password: string): Observable<LoginResult> {
     const data: LoginCredentials = { password };
-
+  
     if (emailOrUsername.includes('@')) {
       data.email = emailOrUsername;
     } else {
       data.username = emailOrUsername;
     }
-
+  
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, data).pipe(
-      switchMap(response =>
+      tap(response => this.setToken(response.access_token)),
+      switchMap(() =>
         this.fetchUserProfile().pipe(
+          tap(user => console.log('Usuário logado:', user)),
           map(user => ({
-            token: response.access_token,
+            token: this.getToken() ?? '',
             user
-          })),
-          tap(({ token }) => this.setToken(token))
+          }))
         )
       )
     );

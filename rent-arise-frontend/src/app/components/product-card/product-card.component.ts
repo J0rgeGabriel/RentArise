@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProdutoService } from '../../services/produto.service';
 import { FormsModule } from '@angular/forms';
 import { Produto } from '../../shared/interfaces';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-card',
@@ -11,12 +12,12 @@ import { Produto } from '../../shared/interfaces';
   templateUrl: './product-card.component.html',
   styleUrls: ['./product-card.component.css']
 })
-export class ProductCardComponent {
+export class ProductCardComponent implements OnInit {
   produtos: Produto[] = [];
   produtosFiltrados: Produto[] = [];
   searchTerm: string = '';
 
-  constructor(private produtoService: ProdutoService) {}
+  constructor(private produtoService: ProdutoService, private router: Router) { }
 
   ngOnInit(): void {
     this.carregarProdutos();
@@ -40,9 +41,19 @@ export class ProductCardComponent {
     const term = this.searchTerm.toLowerCase().trim();
     this.produtosFiltrados = term
       ? this.produtos.filter(produto =>
-          produto.name.toLowerCase().includes(term)
+          produto.name.toLowerCase().includes(term) ||
+          produto.description.toLowerCase().includes(term) ||
+          (produto.user && produto.user.username.toLowerCase().includes(term))
         )
       : this.produtos;
+  }
+
+  navigateToAllocateProduct(productId: string): void {
+    if (productId) {
+      this.router.navigate(['/alocar-produto', productId]);
+    } else {
+      console.warn('ID do produto não disponível para navegação.');
+    }
   }
 
   onImageError(event: Event): void {

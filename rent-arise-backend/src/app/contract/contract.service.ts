@@ -222,7 +222,7 @@ export class ContractService {
                 'contract',
                 'product.id',
             ])
-            .where('product.userId = :userId', { userId })
+            .where('product.user_id = :userId', { userId })
             .getMany();
     }
 }

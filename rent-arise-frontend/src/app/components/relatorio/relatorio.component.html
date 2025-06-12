@@ -1,0 +1,130 @@
+<div class="relatorio-container">
+  <h1>Relatórios</h1>
+
+  <div class="report-type">
+    <h3>Tipo de relatório</h3>
+    <select [(ngModel)]="selectedReportType">
+      <option value="">Selecione um tipo</option>
+      <option value="overview">Visão geral</option>
+      <option value="summary">Resumo</option>
+      <option value="contracts">Contratos do Usuário</option>
+    </select>
+  </div>
+
+  <div class="overview-section" *ngIf="selectedReportType === 'overview' || selectedReportType === ''">
+    <h2>Visão geral</h2>
+    <div class="overview-cards" *ngIf="reports">
+      <div class="card">
+        <h3>{{ reports.productsRented }}</h3>
+        <p>Equipamentos alugados</p>
+      </div>
+      <div class="card">
+        <h3>{{ reports.totalUsers }}</h3>
+        <p>Clientes ativos</p>
+      </div>
+      <div class="card">
+        <h3>{{ reports.contractsCompleted }}</h3>
+        <p>Contratos encerrados</p>
+      </div>
+      <div class="card">
+        <h3>R$ {{ reports.totalRevenue | number:'1.2-2' }}</h3>
+        <p>Receita total</p>
+      </div>
+    </div>
+    <div *ngIf="!reports">
+      <p>Carregando estatísticas...</p>
+    </div>
+  </div>
+
+  <div class="summary-section" *ngIf="selectedReportType === 'summary' || selectedReportType === ''">
+    <h2>Resumo (Contratos Ativos)</h2>
+    <table *ngIf="activeContracts.length > 0; else noActiveContracts">
+      <thead>
+        <tr>
+          <th>Locador</th>
+          <th>Data de Início</th>
+          <th>Data de Término</th>
+          <th>Valor</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contract of activeContracts">
+          <td>{{ contract.tenant?.username }}</td>
+          <td>{{ contract.startDate | date:'dd/MM/yyyy' }}</td>
+          <td>{{ contract.endDate | date:'dd/MM/yyyy' }}</td>
+          <td>R$ {{ contract.value | number:'1.2-2' }}</td>
+          <td>
+            <span
+              class="status"
+              [ngClass]="{
+                'active': contract.statusLabel === 'Ativo',
+                'pending': contract.statusLabel === 'Pendente',
+                'cancelled': contract.statusLabel === 'Cancelado',
+                'completed': contract.statusLabel === 'Concluído',
+                'rejected': contract.statusLabel === 'Recusado'
+              }"
+            >
+              {{ contract.statusLabel }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noActiveContracts>
+      <p>Não há contratos ativos no momento.</p>
+    </ng-template>
+  </div>
+
+  <div class="contracts-section" *ngIf="selectedReportType === 'contracts' || selectedReportType === ''">
+    <h2>Contratos do Usuário</h2>
+  
+    <div class="filter-section">
+      <h3>Filtrar por Status:</h3>
+      <select
+        class="status-dropdown"
+        [(ngModel)]="filterStatus"
+        aria-label="Filtrar por Status"
+      >
+        <option *ngFor="let status of allStatusOptions" [value]="status">{{ status }}</option>
+      </select>
+    </div>
+  
+    <table *ngIf="filteredContracts.length > 0; else noContracts">
+      <thead>
+        <tr>
+          <th>Locador</th>
+          <th>Data de Início</th>
+          <th>Data de Término</th>
+          <th>Valor</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contract of filteredContracts">
+          <td>{{ contract.tenant?.username }}</td>
+          <td>{{ contract.startDate | date:'dd/MM/yyyy' }}</td>
+          <td>{{ contract.endDate | date:'dd/MM/yyyy' }}</td>
+          <td>R$ {{ contract.value | number:'1.2-2' }}</td>
+          <td>
+            <span
+              class="status"
+              [ngClass]="{
+                'in-progress': contract.statusLabel === 'Ativo',
+                'pending': contract.statusLabel === 'Pendente',
+                'cancelled': contract.statusLabel === 'Cancelado',
+                'completed': contract.statusLabel === 'Concluído',
+                'rejected': contract.statusLabel === 'Recusado'
+              }"
+            >
+              {{ contract.statusLabel }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noContracts>
+      <p>Nenhum contrato encontrado para o filtro selecionado.</p>
+    </ng-template>
+  </div>
+</div>

@@ -20,8 +20,8 @@ export class ContractsController {
   }
 
   @Get()
-  @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  //@UseGuards(RolesGuard)
+  //@Roles(Role.ADMIN)
   async findAll(@CurrentUser() payload: JwtPayload) {
     return this.contractService.findAll(payload);
   }

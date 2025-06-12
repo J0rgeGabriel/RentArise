@@ -85,14 +85,10 @@ export class LoginCadastroComponent {
     this.authService.login(emailOrUsername, this.loginForm.password).subscribe({
       next: ({ token, user }) => {
         this.isSubmitting = false;
-        console.log('Login bem-sucedido:', user);
 
         if (token) {
           this.authService.setToken(token);
         }
-
-        // Você pode salvar user em um estado local ou serviço, se quiser.
-        // Exemplo: this.currentUser = user;
 
         this.router.navigate(['/produtos']);
       },
@@ -117,11 +113,6 @@ export class LoginCadastroComponent {
     this.authService.register(fullname, username, email, password, cpf).subscribe({
       next: (user) => {
         this.isSubmitting = false;
-        console.log('Cadastro bem-sucedido:', user);
-
-        // Como o register já salva o token e busca o user, não precisa chamar setToken aqui.
-
-        this.router.navigate(['/perfil']);
       },
       error: (error) => {
         this.isSubmitting = false;

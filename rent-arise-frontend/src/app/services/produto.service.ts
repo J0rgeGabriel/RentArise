@@ -43,19 +43,19 @@ export class ProdutoService {
     });
   }
 
-  obterProduto(id: number): Observable<Produto> {
+  obterProduto(id: string): Observable<Produto> {
     return this.http.get<Produto>(`${this.apiUrl}/${id}`, {
       headers: this.getHeaders()
     });
   }
 
-  atualizarProduto(id: number, produto: any): Observable<Produto> {
+  atualizarProduto(id: string, produto: any): Observable<Produto> {
     return this.http.put<Produto>(`${this.apiUrl}/${id}`, produto, {
       headers: this.getHeaders()
     });
   }
 
-  excluirProduto(id: number): Observable<void> {
+  excluirProduto(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, {
       headers: this.getHeaders()
     });

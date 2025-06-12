@@ -14,7 +14,7 @@ import { RolesGuard } from '../authorization/roles/roles.guard';
             inject: [ConfigService],
             useFactory: (config: ConfigService) => ({
                 secret: config.getOrThrow('JWT_SECRET'),
-                signOptions: { expiresIn: '1h'}
+                signOptions: { expiresIn: '5h'}
             })
     }), UserModule],
     controllers: [AuthController],

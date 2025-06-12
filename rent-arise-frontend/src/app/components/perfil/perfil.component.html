@@ -1,51 +1,83 @@
 <div class="profile-container">
-  <!-- Visualização principal do perfil -->
-  <div *ngIf="!isEditing" class="profile-view">
-    <h1>Perfil do Usuário</h1>
-
-    <div class="user-profile-display">
-      <img *ngIf="selectedIcon" [src]="selectedIcon.url" alt="Ícone do usuário" class="selected-profile-icon">
-      <span class="user-name">{{ userName }}</span>
-    </div>
-
-    <!-- TODO: Adicione aqui o restante das informações do perfil que sumiram -->
-    <div class="other-profile-info">
-        <p>Email: {{ authService.currentUser?.email }}</p>
-        <p>Nome Completo: {{ authService.currentUser?.fullname }}</p>
-        <p>Nome de Usuário: {{ authService.currentUser?.username }}</p>
-        <!-- Adicione mais campos conforme necessário, acessando authService.currentUser -->
-    </div>
-
-    <button class="edit-button" (click)="startEditing()">Editar Ícone</button>
-
+  <div class="profile-header">
+    <h1>PERFIL DO USUÁRIO</h1>
   </div>
 
-  <!-- Seção de edição de ícones (mostrada somente em modo de edição) -->
-  <div *ngIf="isEditing" class="profile-edit">
-    <h1>Escolha o ícone do seu perfil</h1>
+  <!-- VISUALIZAÇÃO DO PERFIL -->
+  <div *ngIf="!isEditing && fullStatistics" class="profile-view-mode">
+    <div class="profile-content">
+      <div class="profile-details">
+        <div class="user-profile-display">
+          <img *ngIf="selectedIcon"
+               [src]="selectedIcon.url"
+               alt="Ícone do usuário"
+               class="selected-profile-icon">
+          <span class="user-name">{{ fullStatistics.profile.username }}</span>
+        </div>
+        <div class="user-text-info">
+          <p><strong>Nome Completo:</strong> {{ fullStatistics.profile.fullname }}</p>
+          <p><strong>Email:</strong> {{ fullStatistics.profile.email }}</p>
+          <p><strong>Criado em:</strong> {{ fullStatistics.profile.createdAt | date:'dd/MM/yyyy' }}</p>
+        </div>
+      </div>
 
-    <!-- Área para exibir o ícone selecionado durante a edição -->
-    <div class="user-profile-display">
-      <img *ngIf="editingIcon" [src]="editingIcon.url" alt="Ícone selecionado para edição" class="selected-profile-icon">
-      <span class="user-name">Para {{ userName }}</span>
+      <div class="profile-info-box">
+        <h2>Informações</h2>
+        <ul>
+          <li><i class="info-icon">i</i> Total despesa em alocações: R$ {{ fullStatistics.contracts.totalPaid | number:'1.2-2' }}</li>
+          <li><i class="info-icon">i</i> Recebimento: R$ {{ fullStatistics.receivables.totalReceivables | number:'1.2-2' }}</li>
+          <li><i class="info-icon">i</i> Contratos totais: {{ fullStatistics.contracts.totalContracts || 0 }}</li>
+          <li><i class="info-icon">i</i> Contratos ativos: {{ fullStatistics.contracts.activeContracts || 0 }}</li>
+          <li><i class="info-icon">i</i> Produtos cadastrados: {{ fullStatistics.products.total || 0 }}</li>
+        </ul>
+      </div>
     </div>
 
-    <h2>Os clássicos</h2>
+    <button class="edit-profile-button" (click)="startEditing()">EDITAR PERFIL</button>
+  </div>
 
-    <!-- Área para exibir a lista de ícones disponíveis -->
+  <!-- EDIÇÃO DO PERFIL -->
+  <div *ngIf="isEditing && fullStatistics" class="profile-edit-mode">
+    <h1>Edite seu perfil</h1>
+
+    <div class="user-profile-display edit-mode-display">
+      <!-- Ícone do usuário na edição -->
+      <img *ngIf="editingIcon"
+           [src]="editingIcon.url"
+           alt="Ícone selecionado"
+           class="selected-profile-icon">
+      <span class="user-name">{{ fullStatistics.profile.username }}</span>
+    </div>
+
+    <div class="edit-fields">
+      <div class="input-group">
+        <label for="email">Email:</label>
+        <input id="email" type="email" [(ngModel)]="editedEmail" placeholder="Seu email" />
+      </div>
+      <div class="input-group">
+        <label for="fullname">Nome Completo:</label>
+        <input id="fullname" type="text" [(ngModel)]="editedFullname" placeholder="Seu nome completo" />
+      </div>
+      <div class="input-group">
+        <label for="username">Nome de Usuário:</label>
+        <input id="username" type="text" [(ngModel)]="editedUsername" placeholder="Seu nome de usuário" />
+      </div>
+    </div>
+
+    <h2>Escolha o ícone do seu perfil</h2>
+
     <div class="available-icons-grid">
       <img *ngFor="let icon of availableIcons"
            [src]="icon.url"
            alt="Ícone disponível {{ icon.id }}"
            class="profile-icon-option"
-           [class.selected]="!!editingIcon && icon.id === editingIcon.id"
-           (click)="selectEditingIcon(icon)">
+           [class.selected]="editingIcon?.id === icon.id"
+           (click)="selectEditingIcon(icon)" />
     </div>
 
-    <!-- Botões de Salvar e Cancelar -->
     <div class="edit-actions">
-      <button class="save-button" (click)="saveIcon()">Salvar</button>
-      <button class="cancel-button" (click)="cancelEditing()">Cancelar</button>
+      <button class="save-button" (click)="saveIcon()">SALVAR</button>
+      <button class="cancel-button" (click)="cancelEditing()">CANCELAR</button>
     </div>
   </div>
 </div>

@@ -1,21 +1,29 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ProfileIcon } from '../../shared/interfaces';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { FormsModule } from '@angular/forms';
+import { FullStatistics, ProfileIcon, User } from '../../shared/interfaces';
 import { Subscription } from 'rxjs';
+import { StatisticsService } from '../../services/statistics.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-perfil',
-  imports: [FormsModule, CommonModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './perfil.component.html',
-  styleUrl: './perfil.component.css'
+  styleUrls: ['./perfil.component.css']
 })
 export class PerfilComponent implements OnInit, OnDestroy {
+  fullStatistics: FullStatistics | null = null;
   userName: string = '';
   selectedIcon: ProfileIcon | null = null;
   editingIcon: ProfileIcon | null = null;
   isEditing: boolean = false;
+
+  editedEmail: string = '';
+  editedFullname: string = '';
+  editedUsername: string = '';
 
   availableIcons: ProfileIcon[] = [
     { id: 0, url: '/assets/icone-00.png' },
@@ -32,16 +40,37 @@ export class PerfilComponent implements OnInit, OnDestroy {
     { id: 11, url: '/assets/icone-11.png' },
   ];
 
-  private subscription?: Subscription;
+  subscription?: Subscription;
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly statisticsService: StatisticsService,
+    private readonly userService: UserService
+  ) {}
 
   ngOnInit(): void {
-    this.subscription = this.authService.currentUser$.subscribe(user => {
-      if (user) {
-        this.userName = user.username;
+    this.subscription = this.authService.currentUser$.subscribe(authUser => {
+      if (authUser) {
+        this.userName = authUser.username;
+
+        this.statisticsService.getFullStatistics().subscribe({
+          next: (stats: FullStatistics) => {
+            this.fullStatistics = stats;
+
+            this.selectedIcon = this.availableIcons.find(icon => icon.url === stats.profile.profileIconUrl) ?? this.availableIcons[0];
+
+            this.editedEmail = stats.profile.email || '';
+            this.editedFullname = stats.profile.fullname || '';
+            this.editedUsername = stats.profile.username || '';
+          },
+          error: err => {
+            console.error('Erro ao buscar estatísticas completas:', err);
+            this.fullStatistics = null;
+          }
+        });
       } else {
         this.userName = '';
+        this.fullStatistics = null;
       }
     });
   }
@@ -53,6 +82,12 @@ export class PerfilComponent implements OnInit, OnDestroy {
   startEditing(): void {
     this.isEditing = true;
     this.editingIcon = this.selectedIcon;
+
+    if (this.fullStatistics) {
+      this.editedEmail = this.fullStatistics.profile.email || '';
+      this.editedFullname = this.fullStatistics.profile.fullname || '';
+      this.editedUsername = this.fullStatistics.profile.username || '';
+    }
   }
 
   selectEditingIcon(icon: ProfileIcon): void {
@@ -62,24 +97,46 @@ export class PerfilComponent implements OnInit, OnDestroy {
   cancelEditing(): void {
     this.isEditing = false;
     this.editingIcon = null;
+
+    if (this.fullStatistics) {
+      this.editedEmail = this.fullStatistics.profile.email || '';
+      this.editedFullname = this.fullStatistics.profile.fullname || '';
+      this.editedUsername = this.fullStatistics.profile.username || '';
+    }
   }
 
   saveIcon(): void {
-    if (this.editingIcon) {
+    if (this.fullStatistics && this.editingIcon) {
       this.selectedIcon = this.editingIcon;
-      console.log('Ícone salvo:', this.selectedIcon);
 
-      // TODO: Atualizar no backend, por exemplo:
-      // this.userService.updateProfileIcon(this.authService.currentUser?.id, this.selectedIcon.url)
-      //   .subscribe(
-      //     () => console.log('Ícone atualizado com sucesso'),
-      //     err => console.error('Erro ao atualizar ícone', err)
-      //   );
-    } else {
-      console.log('Nenhum ícone selecionado para salvar.');
+      const updateData = {
+        fullname: this.editedFullname,
+        username: this.editedUsername,
+        email: this.editedEmail,
+        profileIconUrl: this.selectedIcon.url
+      };
+
+      const userId = this.fullStatistics.profile.id;
+
+      this.userService.update(userId, updateData).subscribe({
+        next: (updatedProfile) => {
+          this.fullStatistics!.profile = {
+            id: updatedProfile.userId,
+            username: updatedProfile.username,
+            fullname: updatedProfile.fullname,
+            email: updatedProfile.email,
+            createdAt: updatedProfile.createdAt,
+            role: updatedProfile.role,
+            profileIconUrl: updatedProfile.profileIconUrl
+          };
+
+          this.isEditing = false;
+          this.editingIcon = null;
+        },
+        error: (err) => {
+          console.error('Erro ao atualizar o perfil:', err);
+        }
+      });
     }
-
-    this.isEditing = false;
-    this.editingIcon = null;
   }
 }

@@ -12,11 +12,17 @@
   </div>
 
   <div class="produtos-grid">
-    <div class="product-card" *ngFor="let produto of produtosFiltrados">
-      <img [src]="produto.mainPhoto || 'https://via.placeholder.com/270x180?text=Sem+Imagem'"
-           alt="Imagem do Produto"
-           class="product-image"
-           (error)="onImageError($event)">
+    <div
+      class="product-card"
+      *ngFor="let produto of produtosFiltrados"
+      (click)="navigateToAllocateProduct(produto.id)"
+    >
+      <img
+        [src]="produto.mainPhoto || 'https://via.placeholder.com/270x180?text=Sem+Imagem'"
+        alt="Imagem do Produto"
+        class="product-image"
+        (error)="onImageError($event)"
+      >
       <div class="product-details">
         <h3 class="product-name">{{ produto.name }}</h3>
         <p class="product-description">{{ produto.description }}</p>
