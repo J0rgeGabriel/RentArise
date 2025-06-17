@@ -1,51 +1,83 @@
-<div class="container">
-  <div class="profile-info-block">
-    <div class="form-and-info">
-      <div class="form-section">
-        <div class="section-header">
-          <h2><strong>Perfil de Usuário</strong></h2>
-          <svg class="icon-user" viewBox="0 0 24 24" fill="#0A2036" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
-          </svg>
+<div class="profile-container">
+  <div class="profile-header">
+    <h1>PERFIL DO USUÁRIO</h1>
+  </div>
+
+  <!-- VISUALIZAÇÃO DO PERFIL -->
+  <div *ngIf="!isEditing && fullStatistics" class="profile-view-mode">
+    <div class="profile-content">
+      <div class="profile-details">
+        <div class="user-profile-display">
+          <img *ngIf="selectedIcon"
+               [src]="selectedIcon.url"
+               alt="Ícone do usuário"
+               class="selected-profile-icon">
+          <span class="user-name">{{ fullStatistics.profile.username }}</span>
         </div>
-
-        <form (ngSubmit)="onSave()" #profileForm="ngForm" novalidate>
-          <label>Nome Completo</label>
-          <input type="text" name="nome" [(ngModel)]="user.nome" placeholder="Informe seu nome" required />
-
-          <label>CPF</label>
-          <input type="text" name="cpf" [(ngModel)]="user.cpf" placeholder="000.000.000-00" (keypress)="blockLetters($event)" required />
-
-          <label>E-mail</label>
-          <input type="email" name="email" [(ngModel)]="user.email" placeholder="Informe seu e-mail" required />
-
-          <label>Idade</label>
-          <input type="number" name="idade" [(ngModel)]="user.idade" min="0" max="120" placeholder="18 anos" required />
-
-          <div class="button-group">
-            <button type="button">Editar</button>
-            <button type="button">Salvar</button>
-          </div>
-        </form>
+        <div class="user-text-info">
+          <p><strong>Nome Completo:</strong> {{ fullStatistics.profile.fullname }}</p>
+          <p><strong>Email:</strong> {{ fullStatistics.profile.email }}</p>
+          <p><strong>Criado em:</strong> {{ fullStatistics.profile.createdAt | date:'dd/MM/yyyy' }}</p>
+        </div>
       </div>
 
-      <div class="info-section">
-        <div class="section-header">
-          <h2><strong>Informações</strong></h2>
-          <svg class="icon-info" viewBox="0 0 24 24" fill="#0A2036" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" stroke="#0A2036" stroke-width="2" fill="none"/>
-            <line x1="12" y1="8" x2="12" y2="12" stroke="#0A2036" stroke-width="2"/>
-            <circle cx="12" cy="16" r="1" fill="#0A2036"/>
-          </svg>
-        </div>
-
-        <p><strong>Total despesa em alocações:</strong> R$xx,xx</p>
-        <p><strong>Recebimento:</strong> R$xx,xx</p>
-        <p><strong>Contratos totais:</strong> int</p>
-        <p><strong>Contratos ativos:</strong> int</p>
-        <p><strong>Produtos alugados:</strong> int</p>
-        <p><strong>Produtos cadastrados:</strong> int</p>
+      <div class="profile-info-box">
+        <h2>Informações</h2>
+        <ul>
+          <li><i class="info-icon">i</i> Total despesa em alocações: R$ {{ fullStatistics.contracts.totalPaid | number:'1.2-2' }}</li>
+          <li><i class="info-icon">i</i> Recebimento: R$ {{ fullStatistics.receivables.totalReceivables | number:'1.2-2' }}</li>
+          <li><i class="info-icon">i</i> Contratos totais: {{ fullStatistics.contracts.totalContracts || 0 }}</li>
+          <li><i class="info-icon">i</i> Contratos ativos: {{ fullStatistics.contracts.activeContracts || 0 }}</li>
+          <li><i class="info-icon">i</i> Produtos cadastrados: {{ fullStatistics.products.total || 0 }}</li>
+        </ul>
       </div>
+    </div>
+
+    <button class="edit-profile-button" (click)="startEditing()">EDITAR PERFIL</button>
+  </div>
+
+  <!-- EDIÇÃO DO PERFIL -->
+  <div *ngIf="isEditing && fullStatistics" class="profile-edit-mode">
+    <h1>Edite seu perfil</h1>
+
+    <div class="user-profile-display edit-mode-display">
+      <!-- Ícone do usuário na edição -->
+      <img *ngIf="editingIcon"
+           [src]="editingIcon.url"
+           alt="Ícone selecionado"
+           class="selected-profile-icon">
+      <span class="user-name">{{ fullStatistics.profile.username }}</span>
+    </div>
+
+    <div class="edit-fields">
+      <div class="input-group">
+        <label for="email">Email:</label>
+        <input id="email" type="email" [(ngModel)]="editedEmail" placeholder="Seu email" />
+      </div>
+      <div class="input-group">
+        <label for="fullname">Nome Completo:</label>
+        <input id="fullname" type="text" [(ngModel)]="editedFullname" placeholder="Seu nome completo" />
+      </div>
+      <div class="input-group">
+        <label for="username">Nome de Usuário:</label>
+        <input id="username" type="text" [(ngModel)]="editedUsername" placeholder="Seu nome de usuário" />
+      </div>
+    </div>
+
+    <h2>Escolha o ícone do seu perfil</h2>
+
+    <div class="available-icons-grid">
+      <img *ngFor="let icon of availableIcons"
+           [src]="icon.url"
+           alt="Ícone disponível {{ icon.id }}"
+           class="profile-icon-option"
+           [class.selected]="editingIcon?.id === icon.id"
+           (click)="selectEditingIcon(icon)" />
+    </div>
+
+    <div class="edit-actions">
+      <button class="save-button" (click)="saveIcon()">SALVAR</button>
+      <button class="cancel-button" (click)="cancelEditing()">CANCELAR</button>
     </div>
   </div>
 </div>

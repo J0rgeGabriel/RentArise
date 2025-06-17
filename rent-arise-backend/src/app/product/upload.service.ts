@@ -1,3 +1,28 @@
+import * as fs from 'fs-extra';
+import * as path from 'path';
+
+/* @Injectable()
+export class UploadService {
+  private readonly uploadDir = path.resolve(process.cwd(), 'uploads');
+
+  constructor() {
+    fs.ensureDirSync(this.uploadDir);
+  }
+
+  async uploadImage(file: FileProductDto, filePath: string): Promise<string> {
+    const fullPath = path.join(this.uploadDir, filePath);
+
+    try {
+      await fs.ensureDir(path.dirname(fullPath));
+      await fs.writeFile(fullPath, file.buffer);
+    } catch (err) {
+      throw new Error('Erro ao salvar imagem localmente: ' + err.message);
+    }
+
+    return `http://localhost:3000/uploads/${filePath}`;
+  }
+} */
+
 import { createClient } from "@supabase/supabase-js";
 import { FileProductDto } from "./dto/file-product-dto";
 import { Injectable } from "@nestjs/common";

@@ -2,30 +2,64 @@
   <div class="form-box">
     <img src="/assets/caixa_logo.png" alt="RentArise Logo" class="logo" />
 
+    <!-- Cadastro -->
     <ng-container *ngIf="isRegister; else loginTemplate">
-      <h2><strong>Crie a sua conta.</strong> <span> É grátis!</span></h2>
+      <h2><strong>Crie a sua conta.</strong> <span>É grátis!</span></h2>
       <p>Nos informe alguns dados para que possamos melhorar a sua experiência na RentArise.</p>
 
       <form (ngSubmit)="onSubmit()" #formRef="ngForm">
         <div *ngIf="errorMessage" class="error-message">
           {{ errorMessage }}
         </div>
+        <div *ngIf="successMessage" class="success-message">
+          {{ successMessage }}
+        </div>
 
         <label>CPF</label>
-        <input type="text" name="cpf" [(ngModel)]="registerForm.cpf" placeholder="000.000.000-00" required />
+        <input
+          type="text"
+          name="cpf"
+          [(ngModel)]="registerForm.cpf"
+          placeholder="000.000.000-00"
+          required
+        />
 
         <label>Nome Completo</label>
-        <input type="text" name="fullname" [(ngModel)]="registerForm.fullname" placeholder="Informe seu nome" required />
+        <input
+          type="text"
+          name="fullname"
+          [(ngModel)]="registerForm.fullname"
+          placeholder="Informe seu nome"
+          required
+        />
 
         <label>Como você quer ser chamado(a)?</label>
-        <input type="text" name="username" [(ngModel)]="registerForm.username" placeholder="Exemplo: Jorge G." required />
+        <input
+          type="text"
+          name="username"
+          [(ngModel)]="registerForm.username"
+          placeholder="Exemplo: Jorge G."
+          required
+        />
 
         <label>E-mail</label>
-        <input type="email" name="email" [(ngModel)]="registerForm.email" placeholder="Digite seu e-mail" required />
+        <input
+          type="email"
+          name="email"
+          [(ngModel)]="registerForm.email"
+          placeholder="Digite seu e-mail"
+          required
+        />
 
         <label>Senha</label>
         <div class="senha-container">
-          <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="registerForm.password" placeholder="Digite sua senha" required />
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            name="password"
+            [(ngModel)]="registerForm.password"
+            placeholder="Digite sua senha"
+            required
+          />
           <button type="button" class="toggle" (click)="togglePassword()">👁️</button>
         </div>
 
@@ -33,6 +67,7 @@
       </form>
     </ng-container>
 
+    <!-- Login -->
     <ng-template #loginTemplate>
       <h2><strong>Já sou cliente</strong></h2>
       <p>Nos informe os dados de acesso para que você possa acessar a RentArise.</p>
@@ -42,25 +77,24 @@
           {{ errorMessage }}
         </div>
 
-        <div class="login-method-toggle">
-          <button type="button" class="toggle-method" (click)="toggleLoginMethod()">
-            {{ useEmail ? 'Usar nome de usuário' : 'Usar e-mail' }}
-          </button>
-        </div>
-
-        <ng-container *ngIf="useEmail; else usernameInput">
-          <label>E-mail</label>
-          <input type="email" name="email" [(ngModel)]="loginForm.email" placeholder="Digite seu e-mail" required />
-        </ng-container>
-
-        <ng-template #usernameInput>
-          <label>Nome de usuário</label>
-          <input type="text" name="username" [(ngModel)]="loginForm.username" placeholder="Digite seu nome de usuário" required />
-        </ng-template>
+        <label>E-mail ou nome de usuário</label>
+        <input
+          type="text"
+          name="email"
+          [(ngModel)]="loginForm.email"
+          placeholder="Digite seu e-mail ou nome de usuário"
+          required
+        />
 
         <label>Senha</label>
         <div class="senha-container">
-          <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="loginForm.password" placeholder="Digite sua senha" required />
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            name="password"
+            [(ngModel)]="loginForm.password"
+            placeholder="Digite sua senha"
+            required
+          />
           <button type="button" class="toggle" (click)="togglePassword()">👁️</button>
         </div>
 

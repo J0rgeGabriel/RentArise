@@ -34,6 +34,7 @@ export class StatisticsService {
         email: user.email,
         createdAt: user.createdAt,
         role: user.role,
+        profileIconUrl: user.profileIconUrl,
       },
       contracts: contractStats,
       products: {
@@ -42,6 +43,32 @@ export class StatisticsService {
       receivables: {
         totalReceivables: receivables,
       },
+    };
+  }
+
+  async getReportsStatistics(payload: JwtPayload) {
+    const [users, contracts] = await Promise.all([
+      this.userService.findAll(),
+      this.contractService.findAll(payload),
+    ]);
+
+    const productsRented = contracts.filter(contract =>
+      !['cancelled', 'pending', 'rejected'].includes(contract.status)
+    ).length;
+
+    const contractsCompleted = contracts.filter(contract =>
+      contract.status === 'completed'
+    ).length;
+
+    const totalRevenue = contracts
+      .filter(contract => ['completed', 'active'].includes(contract.status))
+      .reduce((sum, contract) => sum + (contract.value || 0), 0) * 0.15;
+
+    return {
+      totalUsers: users.length,
+      productsRented,
+      contractsCompleted,
+      totalRevenue,
     };
   }
 

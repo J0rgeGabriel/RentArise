@@ -1,11 +1,34 @@
-<div class="product-card">
-  <img [src]="produto.mainPhoto || 'https://via.placeholder.com/270x180?text=Sem+Imagem'"
-       alt="Imagem do Produto"
-       class="product-image"
-       (error)="onImageError($event)">
-  <div class="product-details">
-    <h3 class="product-name">{{ produto.name }}</h3>
-    <p class="product-description">{{ produto.description }}</p>
-    <!-- <p class="product-price">Preço: R$ {{ produto.preco }} / dia</p> -->
+<div class="catalogo-container">
+  <h2>Catálogo de Produtos</h2>
+
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="filterProducts()"
+      placeholder="Pesquisar produtos..."
+      class="search-input"
+    >
+  </div>
+
+  <div class="produtos-grid">
+    <div
+      class="product-card"
+      *ngFor="let produto of produtosFiltrados"
+      (click)="navigateToAllocateProduct(produto.id)"
+    >
+      <img
+        [src]="produto.mainPhoto || 'https://via.placeholder.com/270x180?text=Sem+Imagem'"
+        alt="Imagem do Produto"
+        class="product-image"
+        (error)="onImageError($event)"
+      >
+      <div class="product-details">
+        <h3 class="product-name">{{ produto.name }}</h3>
+        <p class="product-description">{{ produto.description }}</p>
+        <p class="product-price">R$ {{ produto.pricePerDay | number:'1.2-2' }}/dia</p>
+        <p class="product-locador">Locador: {{ produto.user.username }}</p>
+      </div>
+    </div>
   </div>
 </div>

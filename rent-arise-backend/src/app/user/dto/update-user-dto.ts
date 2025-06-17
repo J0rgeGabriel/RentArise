@@ -21,4 +21,9 @@ export class UpdateUserDto {
   @MinLength(6)
   @ApiProperty({ description: 'Password with minimum 6 characters.' })
   password?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({ description: 'URL or path to the profile icon image.' })
+  profileIconUrl?: string;
 }

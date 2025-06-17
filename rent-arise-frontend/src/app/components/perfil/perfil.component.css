@@ -1,127 +1,467 @@
-.container {
-  max-width: 1400px;
-  margin: 60px auto;
-  padding: 40px;
-}
-
-.profile-info-block {
+/* Estilos para o container principal da página de perfil */
+.profile-container {
+  max-width: 1100px; /* Aumentar um pouco mais a largura máxima */
+  margin: 40px auto;
+  padding: 0;
   background-color: #0A2036;
-  border-radius: 16px;
-  padding: 40px;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
-  min-height: 700px;
-  box-sizing: border-box;
+  border-radius: 16px; /* Mais arredondado */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Sombra mais pronunciada */
+  font-family: 'Roboto', sans-serif;
+  color: #f9f9f9; /* Mais claro para melhor contraste */
+  overflow: hidden;
 }
 
-.form-and-info {
+/* Estilos para o cabeçalho do perfil */
+.profile-header {
+  background-color: #0A2036;
+  padding: 20px 30px;
+  border-bottom: 2px solid #FEA34A;
+  text-align: center;
+}
+
+.profile-header h1 {
+  font-size: 2.2em;
+  color: #FEA34A;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); /* Adicionar sombra no texto do título */
+}
+
+/* Estilos para o modo de visualização do perfil */
+.profile-view-mode {
+  padding: 40px; /* Aumentar o padding interno */
+}
+
+.profile-content {
   display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  align-items: stretch;
-  width: 100%;
+  gap: 40px; /* Aumentar o espaçamento entre as colunas */
+  margin-bottom: 40px;
 }
 
-.form-section,
-.info-section {
-  flex: 1 1 500px;
-  background-color: #ebe9e9;
-  border-radius: 12px;
-  padding: 32px;
-  border: 10px solid #FEA34A;
-  box-sizing: border-box;
-  min-height: 500px;
-  transition: box-shadow 0.3s ease;
-}
-
-.form-section:hover,
-.info-section:hover {
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
-}
-
-.section-header {
+.profile-details {
+  flex: 1;
+  background-color: #111827; /* Fundo mais escuro */
+  border-radius: 16px; /* Mais arredondado */
+  padding: 35px; /* Aumentar o padding interno */
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  margin-bottom: 24px;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Adicionar transição */
 }
 
-.section-header h2 {
-  font-size: 30px;
-  color: #111827;
+.profile-details:hover {
+  transform: translateY(-8px); /* Levantamento maior */
+  box-shadow: 0 16px 40px rgba(254, 163, 74, 0.7);
 }
 
-.icon-user,
-.icon-info {
-  width: 36px;
-  height: 36px;
-}
-
-form label {
-  display: block;
-  margin-top: 18px;
-  font-size: 21px;
-  font-weight: 600;
-  color: #374151;
-}
-
-form input {
-  width: 100%;
-  padding: 10px 10px;
-  margin-top: 6px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 1rem;
-  background-color: #fefefe;
-  transition: border-color 0.3s;
-  box-sizing: border-box;
-}
-
-form input:focus {
-  border-color: #FEA34A;
-  outline: none;
-  background-color: #ffffff;
-}
-
-.button-group {
+.user-profile-display {
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.selected-profile-icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #FEA34A;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
+  margin-bottom: 15px;
+}
+
+.user-name {
+  font-size: 1.8em;
+  color: #FEA34A;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.user-text-info p {
+  margin: 8px 0;
+  font-size: 1.1em;
+  color: #f9f9f9; /* Mais claro */
+}
+
+/* Estilos para a caixa de informações */
+.profile-info-box {
+  flex: 1;
+  background-color: #111827; /* Fundo mais escuro */
+  border-radius: 16px; /* Mais arredondado */
+  padding: 35px; /* Aumentar o padding interno */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Adicionar transição */
+}
+
+.profile-info-box:hover {
+  transform: translateY(-8px); /* Levantamento maior */
+  box-shadow: 0 16px 40px rgba(254, 163, 74, 0.7);
+}
+
+.profile-info-box h2 {
+  color: #FEA34A;
+  font-size: 1.5em;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.profile-info-box h2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background-color: #FEA34A;
+}
+
+.profile-info-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profile-info-box li {
+  margin-bottom: 12px;
+  font-size: 1.1em;
+  color: #f9f9f9; /* Mais claro */
+  display: flex;
+  align-items: center;
+}
+
+.info-icon {
+  background-color: #FEA34A;
+  color: #0A2036;
+  border-radius: 50%;
+  width: 24px; /* Levemente maior */
+  height: 24px; /* Levemente maior */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9em; /* Ajustar tamanho da fonte */
+  font-weight: bold;
+  margin-right: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra no ícone de informação */
+}
+
+/* Estilos para o botão de editar perfil */
+.edit-profile-button {
+  display: block;
+  margin: 30px auto;
+  background-color: #FEA34A;
+  color: #0A2036;
+  padding: 15px 40px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Transição mais suave */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.edit-profile-button:hover {
+  background-color: #f09a40;
+  transform: translateY(-8px); /* Levantamento maior */
+  box-shadow: 0 12px 30px rgba(254, 163, 74, 0.6); /* Sombra mais vibrante */
+}
+
+/* Estilos para o modo de edição do perfil */
+.profile-edit-mode {
+  padding: 30px;
+  text-align: center;
+}
+
+.profile-edit-mode h1 {
+  font-size: 2.2em;
+  color: #FEA34A;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); /* Sombra no texto */
+}
+
+.edit-mode-display {
+  margin-bottom: 30px;
+}
+
+.edit-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: 0 auto 30px auto;
+}
+
+.input-group {
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #FEA34A;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #FEA34A;
+  border-radius: 8px;
+  background-color: #0A2036;
+  color: #f9f9f9; /* Mais claro */
+  font-size: 1.1em;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3); /* Sombra interna para input */
+}
+
+.input-group input::placeholder {
+  color: #A0A0A0; /* Placeholder mais visível */
+}
+
+.profile-edit-mode h2 {
+  color: #FEA34A;
+  font-size: 1.5em;
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 25px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.profile-edit-mode h2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background-color: #FEA34A;
+}
+
+/* Estilos para a grade de ícones disponíveis */
+.available-icons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  border: 2px solid #1A344E;
+  border-radius: 16px; /* Mais arredondado */
+  margin: 0 auto 40px auto;
+  max-width: 600px;
+  justify-items: center;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra interna sutil */
+}
+
+.profile-icon-option {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; /* Transição mais suave */
+  border: 3px solid transparent;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra inicial mais forte */
+}
+
+.profile-icon-option:hover {
+  transform: scale(1.2);
+  border-color: #FEA34A;
+  box-shadow: 0 0 25px rgba(254, 163, 74, 1.2); /* Brilho laranja ainda mais intenso */
+}
+
+.profile-icon-option.selected {
+  border-color: #FEA34A;
+  box-shadow: 0 0 30px rgba(254, 163, 74, 1.5); /* Brilho ainda mais intenso para selecionado */
+  transform: scale(1.15);
+}
+
+/* Estilos para os botões de ação (Salvar/Cancelar) */
+.edit-actions {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
   margin-top: 30px;
 }
 
-.button-group button {
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 600;
+.save-button, .cancel-button {
+  padding: 12px 35px;
   border: none;
-  border-radius: 8px;
-  background-color: #FEA34A;
-  color: white;
+  border-radius: 30px;
+  font-size: 1.15rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Transição mais suave */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.button-group button:hover {
-  background-color: #0A2036;
-  transform: translateY(-1px);
+.save-button {
+  background-color: #FEA34A;
+  color: #0A2036;
 }
 
-.info-section p {
-  margin-bottom: 18px;
-  font-size: 21px;
-  line-height: 1.6;
-  color: #374151;
+.save-button:hover {
+  background-color: #f09a40;
+  transform: translateY(-8px); /* Levantamento maior */
+  box-shadow: 0 12px 30px rgba(254, 163, 74, 0.6); /* Sombra mais vibrante */
 }
 
+.cancel-button {
+  background-color: #3A506B;
+  color: #f9f9f9; /* Mais claro */
+}
+
+.cancel-button:hover {
+  background-color: #4A607B;
+  transform: translateY(-8px); /* Levantamento maior */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5); /* Sombra mais forte */
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
-  .form-and-info {
-    flex-direction: column;
+  .profile-container {
+    max-width: 95%;
+    margin: 20px auto;
+    border-radius: 12px;
   }
 
-  .form-section,
-  .info-section {
-    width: 100%;
+  .profile-header h1 {
+    font-size: 1.8em;
+  }
+
+  .profile-view-mode {
+    padding: 30px; /* Ajustar padding para telas menores */
+  }
+
+  .profile-content {
+    flex-direction: column;
+    gap: 30px; /* Ajustar espaçamento para telas menores */
+  }
+
+  .profile-details, .profile-info-box {
+    padding: 30px; /* Ajustar padding para telas menores */
+    border-radius: 12px;
+  }
+
+  .selected-profile-icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .user-name {
+    font-size: 1.5em;
+  }
+
+  .user-text-info p, .profile-info-box li {
+    font-size: 1em;
+    color: #E0E0E0; /* Manter E0E0E0 para mobile, se f9f9f9 ficar muito claro */
+  }
+
+  .info-icon {
+    width: 22px;
+    height: 22px;
+    font-size: 0.8em;
+  }
+
+  .edit-profile-button {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+  }
+
+  .profile-edit-mode {
+    padding: 20px;
+  }
+
+  .profile-edit-mode h1 {
+    font-size: 1.8em;
+  }
+
+  .input-group label {
+    font-size: 1em;
+  }
+
+  .input-group input {
+    padding: 10px;
+    font-size: 1em;
+    color: #E0E0E0; /* Manter E0E0E0 para mobile */
+  }
+
+  .profile-edit-mode h2 {
+    font-size: 1.3em;
+  }
+
+  .available-icons-grid {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 15px;
+    padding: 15px;
+    max-width: none;
+    border-radius: 12px; /* Ajustar para telas menores */
+  }
+
+  .profile-icon-option {
+    width: 75px;
+    height: 75px;
+  }
+
+  .save-button, .cancel-button {
+    padding: 10px 25px;
+    font-size: 1.05rem;
+  }
+
+  .edit-actions {
+    gap: 15px;
   }
 }
 
+@media (max-width: 480px) {
+  .profile-header h1 {
+    font-size: 1.5em;
+  }
 
+  .profile-details, .profile-info-box {
+    padding: 25px; /* Ajustar padding para telas muito pequenas */
+  }
+
+  .selected-profile-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .user-name {
+    font-size: 1.3em;
+  }
+
+  .profile-edit-mode h1 {
+    font-size: 1.5em;
+  }
+
+  .available-icons-grid {
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .profile-icon-option {
+    width: 55px;
+    height: 55px;
+  }
+
+  .save-button, .cancel-button {
+    padding: 8px 20px;
+    font-size: 0.95rem;
+  }
+}

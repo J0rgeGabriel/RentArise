@@ -20,8 +20,8 @@ export class QuemSomosComponent {
   backEndDev = {
     nome: 'Pedro Augusto - Back-end Developer',
     foto: 'assets/dev-pedro-augusto.png',
-    tecnologias: ['Java', 'Spring Boot', 'TypeScript', 'NestJS','PostgreSQL', 'Docker', 'AWS'],
+    tecnologias: ['Java', 'Spring Boot', 'TypeScript', 'NestJS','PostgreSQL', 'Docker'],
     sobre: 'Focado em arquitetura robusta e escalável. Gosta de resolver problemas complexos e automatizar processos.',
-    hobbies: ['Ciclismo', 'Desenvolvimento de APIs', 'Filmes de ficção científica']
+    hobbies: ['Desenvolvimento de Sistemas', 'Games', 'Esportes']
   };
 }

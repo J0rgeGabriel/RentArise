@@ -1,12 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { User } from '../shared/interfaces';
+
+interface AuthResponse {
+  access_token: string;
+  user: User;
+}
 
 interface LoginCredentials {
   email?: string;
   username?: string;
   password: string;
+}
+
+interface LoginResult {
+  token: string;
+  user: User | null;
 }
 
 interface RegisterData {
@@ -18,151 +30,120 @@ interface RegisterData {
   role: string;
 }
 
-interface AuthResponse {
-  access_token: string;
-  user: {
-    id: string;
-    fullname: string;
-    username: string;
-    email: string;
-    role: string;
-  };
-}
-
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private readonly TOKEN_KEY = 'authToken';
-  private apiUrl = `${environment.apiUrl}/auth`;
-  private _currentUser: AuthResponse['user'] | null = null;
+  private readonly apiUrl = `${environment.apiUrl}/auth`;
+
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    const userJson = localStorage.getItem('currentUser');
-    if (userJson) {
-      try {
-        this._currentUser = JSON.parse(userJson);
-      } catch (e) {
-        console.error('Erro ao carregar usuário do localStorage', e);
-        this.clearToken();
-      }
-    }
+    this.loadUserFromToken();
   }
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem(this.TOKEN_KEY);
+  /** Retorna o usuário atual */
+  get currentUser(): User | null {
+    return this.currentUserSubject.value;
+  }
+
+  /** Cabeçalhos com token JWT para requisições autenticadas */
+  getAuthHeaders(): HttpHeaders {
+    const token = this.getToken();
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
   }
 
-  /**
-   * Envia credenciais para autenticação e retorna o token JWT e dados do usuário.
-   */
-  login(emailOrUsername: string, password: string): Observable<AuthResponse> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    const data: LoginCredentials = {
-      password
-    };
-
+  /** Realiza login, retorna token e usuário */
+  login(emailOrUsername: string, password: string): Observable<LoginResult> {
+    const data: LoginCredentials = { password };
+  
     if (emailOrUsername.includes('@')) {
       data.email = emailOrUsername;
     } else {
       data.username = emailOrUsername;
     }
-
-    console.log('Dados do login:', data);
-
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, data, { headers }).pipe(
-      tap(response => {
-        this.setToken(response.access_token);
-        this._currentUser = response.user;
-        localStorage.setItem('currentUser', JSON.stringify(response.user));
-      })
+  
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, data).pipe(
+      tap(response => this.setToken(response.access_token)),
+      switchMap(() =>
+        this.fetchUserProfile().pipe(
+          tap(user => console.log('Usuário logado:', user)),
+          map(user => ({
+            token: this.getToken() ?? '',
+            user
+          }))
+        )
+      )
     );
   }
 
-  /**
-   * Realiza o cadastro de um novo usuário.
-   * Nota: Após o cadastro, o usuário geralmente já está logado e seus dados devem ser armazenados.
-   * Assumindo que a resposta de register também contém AuthResponse com access_token e user.
-   */
-  register(fullname: string, username: string, email: string, password: string, cpf: string): Observable<AuthResponse> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
+  /** Registra novo usuário e retorna o perfil completo */
+  register(fullname: string, username: string, email: string, password: string, cpf: string): Observable<User | null> {
     const data: RegisterData = {
       fullname,
       username,
       email,
       password,
       cpf,
-      role: 'USER'
+      role: 'user'
     };
 
-    console.log('Dados do registro:', data);
-
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data, { headers }).pipe(
-      tap(response => {
-        this.setToken(response.access_token);
-        this._currentUser = response.user;
-        localStorage.setItem('currentUser', JSON.stringify(response.user));
-      })
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data).pipe(
+      tap(response => this.setToken(response.access_token)),
+      switchMap(() => this.fetchUserProfile())
     );
   }
 
-  /**
-   * Armazena o token JWT no localStorage.
-   */
+  /** Armazena token no localStorage */
   setToken(token: string): void {
-    try {
-      localStorage.setItem(this.TOKEN_KEY, token);
-    } catch (error) {
-      console.error('Erro ao armazenar o token:', error);
-    }
+    localStorage.setItem(this.TOKEN_KEY, token);
   }
 
-  /**
-   * Retorna o token JWT do localStorage.
-   */
+  /** Obtém token do localStorage */
   getToken(): string | null {
-    try {
-      return localStorage.getItem(this.TOKEN_KEY);
-    } catch (error) {
-      console.error('Erro ao recuperar o token:', error);
-      return null;
-    }
+    return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  /**
-   * Remove o token JWT e os dados do usuário do localStorage e da memória.
-   */
+  /** Remove token e limpa usuário atual */
   clearToken(): void {
-    try {
-      localStorage.removeItem(this.TOKEN_KEY);
-      localStorage.removeItem('currentUser');
-      this._currentUser = null;
-    } catch (error) {
-      console.error('Erro ao remover o token:', error);
-    }
+    localStorage.removeItem(this.TOKEN_KEY);
+    this.currentUserSubject.next(null);
   }
 
-  /**
-   * Verifica se há um token válido no localStorage.
-   */
+  /** Verifica se existe token válido */
   hasToken(): boolean {
     return !!this.getToken();
   }
 
-  /**
-   * Retorna os dados do usuário logado.
-   */
-  get currentUser(): AuthResponse['user'] | null {
-    return this._currentUser;
+  /** Carrega usuário ao iniciar o serviço, se token existir */
+  loadUserFromToken(): void {
+    if (!this.hasToken()) return;
+
+    this.fetchUserProfile().subscribe({
+      next: user => this.currentUserSubject.next(user),
+      error: err => {
+        console.error('Erro ao carregar usuário:', err);
+        this.clearToken();
+      }
+    });
+  }
+
+  /** Busca perfil completo do usuário logado */
+  private fetchUserProfile(): Observable<User | null> {
+    return this.http.get<User>(`${this.apiUrl}/me`, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      tap(user => this.currentUserSubject.next(user)),
+      catchError(error => {
+        console.error('Erro ao buscar perfil do usuário:', error);
+        this.clearToken();
+        return of(null);
+      })
+    );
   }
 }

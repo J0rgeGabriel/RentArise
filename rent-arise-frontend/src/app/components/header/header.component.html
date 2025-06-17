@@ -1,23 +1,23 @@
 <div>
-      <img src="/assets/LogoMao_RentArise_laranja.png" alt="Logo RentArise" (click)="redirect()" />
-      <b><span class="brand" (click)="redirect()">RentArise</span></b>
+  <img src="/assets/LogoMao_RentArise_laranja.png" alt="Logo RentArise" (click)="redirect()" />
+  <b><span class="brand" (click)="redirect()">RentArise</span></b>
 </div>
 
 <nav class="nav-menu">
-  <button class="nav-button" (click)="togglePageList()">
-    <span class="nav-icon"></span>
-    <span class="nav-text">Menu</span>
-  </button>
+<button class="nav-button" (click)="togglePageList()">
+<span class="nav-icon"></span>
+<span class="nav-text">Menu</span>
+</button>
 
-  <div class="nav-dropdown" [class.show]="showPageList">
-    <ul>
-      <li *ngFor="let route of siteRoutes">
-        <a *ngIf="route.path && route.path !== '**'"
-          [routerLink]="'/' + route.path"
-          (click)="togglePageList()">
-          {{ route.path === '' ? 'Home' : route.path | titlecase }}
-        </a>
-      </li>
-    </ul>
-  </div>
+<div class="nav-dropdown" [class.show]="showPageList">
+<ul>
+  <li *ngFor="let route of siteRoutes" [ngClass]="{'hide-alocar-id': route.path === 'alocar-produto/:id'}">
+    <a *ngIf="route.path && route.path !== '**'"
+      [routerLink]="'/' + route.path"
+      (click)="togglePageList()">
+      {{ route.path === '' ? 'Home' : route.path | titlecase }}
+    </a>
+  </li>
+</ul>
+</div>
 </nav>

@@ -1,16 +1,26 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  title = 'rent-arise-frontend';
+export class AppComponent implements OnInit{
+  title = 'RentArise';
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    const token = this.authService.getToken();
+
+    if (!token && this.router.url !== '/home') {
+      this.authService.clearToken();
+      this.router.navigate(['/home']);
+    }
+  }
 }

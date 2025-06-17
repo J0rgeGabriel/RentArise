@@ -30,7 +30,7 @@ export class UserService {
 
     async findAll(): Promise<Partial<UserEntity>[]> {
         return this.userRepository.find({
-            select: ['id', 'fullname', 'username', 'email', 'cpf', 'role', 'createdAt'],
+            select: ['id', 'fullname', 'username', 'email', 'cpf', 'role', 'createdAt', 'profileIconUrl'],
         });
     }
 

@@ -1,76 +1,72 @@
-<form (ngSubmit)="onSubmit()" class="produto-form">
-  <div class="form-group">
-    <label for="nome">Nome do Produto</label>
-    <input
-      type="text"
-      id="nome"
-      name="nome"
-      [(ngModel)]="produto.nome"
-      required
-      placeholder="Digite o nome do produto"
-    >
+<div class="cadastro-produto-bg">
+  <div class="cadastro-produto-card">
+    <h2>Cadastro de Produto</h2>
+    <form [formGroup]="produtoForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Nome do Produto</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+          autocomplete="off"
+        />
+        <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+          <div *ngIf="f['name'].errors['required']">Nome é obrigatório</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descrição</label>
+        <textarea
+          id="description"
+          rows="3"
+          formControlName="description"
+          [ngClass]="{ 'is-invalid': submitted && f['description'].errors }"
+          autocomplete="off"
+        ></textarea>
+        <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+          <div *ngIf="f['description'].errors['required']">Descrição é obrigatória</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="pricePerDay">Preço (valor por dia)</label>
+        <input
+          type="number"
+          id="pricePerDay"
+          formControlName="pricePerDay"
+          [ngClass]="{ 'is-invalid': submitted && f['pricePerDay'].errors }"
+          autocomplete="off"
+        />
+        <div *ngIf="submitted && f['pricePerDay'].errors" class="invalid-feedback">
+          <div *ngIf="f['pricePerDay'].errors['required']">Preço é obrigatório</div>
+          <div *ngIf="f['pricePerDay'].errors['min']">Preço deve ser maior que zero</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="file">Imagem Principal</label>
+        <input type="file" id="file" (change)="onFileChangePrincipal($event)" accept="image/*" />
+      </div>
+
+      <button type="submit" class="btn-cadastro-produto">Cadastrar Produto</button>
+    </form>
   </div>
 
-  <div class="form-group">
-    <label for="descricao">Descrição</label>
-    <textarea
-      id="descricao"
-      name="descricao"
-      [(ngModel)]="produto.descricao"
-      required
-      placeholder="Descreva o produto"
-      rows="4"
-    ></textarea>
+  <div class="cadastro-produto-preview">
+    <h3>Pré-visualização</h3>
+    <div class="product-card">
+      <img
+        [src]="imagemPreviewUrl || 'https://via.placeholder.com/270x180?text=Sem+Imagem'"
+        alt="Imagem do Produto"
+        class="product-image"
+      />
+      <div class="product-details">
+        <h3 class="product-name">{{ produtoForm.get('name')?.value || 'Nome do Produto' }}</h3>
+        <p class="product-description">{{ produtoForm.get('description')?.value || 'Descrição do produto...' }}</p>
+        <p class="product-price">R$ {{ produtoForm.get('pricePerDay')?.value || '0,00' }}/dia</p>
+      </div>
+    </div>
   </div>
-
-  <div class="form-group">
-    <label for="dono">Dono do Produto</label>
-    <input
-      type="text"
-      id="dono"
-      name="dono"
-      [(ngModel)]="produto.dono"
-      required
-      placeholder="Nome do dono do produto"
-    >
-  </div>
-
-  <div class="form-group">
-    <label for="valorDia">Valor por Dia (R$)</label>
-    <input
-      type="number"
-      id="valorDia"
-      name="valorDia"
-      [(ngModel)]="produto.valorDia"
-      required
-      min="0"
-      step="0.01"
-      placeholder="0.00"
-    >
-  </div>
-
-  <div class="form-group">
-    <label for="fotoPrincipal">Foto Principal</label>
-    <input
-      type="file"
-      id="fotoPrincipal"
-      name="fotoPrincipal"
-      accept="image/*"
-      (change)="onFileSelected($event)"
-    >
-  </div>
-
-  <div class="form-group">
-    <label for="fotosAdicionais">Fotos Adicionais</label>
-    <input
-      type="file"
-      id="fotosAdicionais"
-      name="fotosAdicionais"
-      accept="image/*"
-      multiple
-      (change)="onMultipleFilesSelected($event)"
-    >
-  </div>
-
-  <button type="submit" class="submit-button">Cadastrar Produto</button>
-</form>
+</div>

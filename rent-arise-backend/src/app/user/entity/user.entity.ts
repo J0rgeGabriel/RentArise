@@ -29,4 +29,7 @@ export class UserEntity {
     
     @Column({ type: 'text', default: Role.USER })
     role: Role;
+
+    @Column({ name: 'profile_icon_url', nullable: true })
+    profileIconUrl?: string;
 }

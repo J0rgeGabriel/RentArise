@@ -1,24 +1,24 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { CadastroProdutoComponent } from './pages/cadastro-produto/cadastro-produto.component';
+import { TelaCadastroProdutoComponent } from './pages/cadastro-produto/tela-cadastro-produto.component';
 import { SobreComponent } from './pages/sobre/sobre.component';
 import { CatalogoComponent } from './pages/catalogo/catalogo.component';
-// Removendo a importação de LoginCadastroComponent, pois não será usado nas rotas principais
-// import { LoginCadastroComponent } from './components/login-cadastro/login-cadastro.component';
-// Assumindo que existe um componente de Perfil, importe-o aqui, senão precisará ser criado.
 import { ProfileComponent } from './pages/profile/profile.component';
+import { ReportsComponent } from './pages/reports/reports.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'cadastro-produto', component: CadastroProdutoComponent },
-  { path: 'sobre', component: SobreComponent },
-  { path: 'produtos', component: CatalogoComponent },
-  // Removendo rotas para login e cadastro
-  // { path: 'login', component: LoginCadastroComponent, data: { isRegister: false } },
-  // { path: 'cadastro', component: LoginCadastroComponent, data: { isRegister: true } },
-  // Rota para o perfil (assumindo que LoginCadastroComponent redireciona para cá após cadastro)
-  { path: 'perfil', component: ProfileComponent },
-  // Rota curinga para redirecionar para home se a URL não corresponder a nenhuma rota
+  { path: 'cadastro-produto', component: TelaCadastroProdutoComponent, canActivate: [AuthGuard] },
+  { path: 'sobre', component: SobreComponent, canActivate: [AuthGuard] },
+  { path: 'produtos', component: CatalogoComponent, canActivate: [AuthGuard] },
+  { path: 'perfil', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'relatorio', component: ReportsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'alocar-produto/:id',
+    loadComponent: () => import('./pages/alocar-produto/alocar-produto.component').then(m => m.AlocarProdutoComponent), 
+    canActivate: [AuthGuard]
+  },
   { path: '**', redirectTo: 'home' }
 ];

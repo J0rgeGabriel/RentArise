@@ -1,3 +1,116 @@
+/* Container principal do catálogo */
+.catalogo-container {
+  padding: 60px 40px;
+  background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 50%, #80deea 100%);
+  color: #2c3e50;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fundo de partículas e brilho suave */
+.catalogo-container::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(254, 163, 74, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(254, 163, 74, 0.05) 0%, transparent 50%),
+    linear-gradient(45deg, rgba(255, 255, 255, 0.8) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.catalogo-container::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150%; height: 150%;
+  background: radial-gradient(circle at center, rgba(254, 163, 74, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  animation: pulse 8s infinite;
+  z-index: 0;
+}
+
+/* Título principal */
+h2 {
+  font-size: 42px;
+  margin-bottom: 40px;
+  color: #2c3e50;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #FEA34A, transparent);
+  animation: glow 2s infinite;
+}
+
+/* Busca */
+.search-container {
+  margin: 20px auto 40px;
+  max-width: 600px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 15px 25px;
+  font-size: 16px;
+  border: 2px solid #FEA34A;
+  border-radius: 30px;
+  outline: none;
+  background-color: white;
+  color: #2c3e50;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.search-input:focus {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(254, 163, 74, 0.2);
+  border-color: #ff9800;
+}
+
+.search-input::placeholder {
+  color: #a0a0a0;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus::placeholder {
+  opacity: 0.7;
+  transform: translateX(10px);
+}
+
+/* Grid de produtos */
+.produtos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Cards de produtos */
 .product-card {
   background-color: #111827;
   border-radius: 16px;
@@ -12,33 +125,53 @@
   min-height: 300px;
   min-width: 250px;
   box-sizing: border-box;
-  visibility: visible !important;
-  opacity: 1 !important;
   position: relative;
   overflow: hidden;
+  visibility: visible !important;
+  opacity: 1 !important;
+  cursor: pointer;
 }
 
 .product-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   background: linear-gradient(45deg, transparent, rgba(254, 163, 74, 0.1), transparent);
   transform: translateX(-100%);
   transition: transform 0.6s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.product-card::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle at center, rgba(254, 163, 74, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .product-card:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 16px 40px rgba(254, 163, 74, 0.7);
+  z-index: 10;
 }
 
 .product-card:hover::before {
   transform: translateX(100%);
 }
 
+.product-card:hover::after {
+  opacity: 1;
+  animation: rotate 4s linear infinite;
+}
+
+/* Imagem do produto */
 .product-image {
   width: 100%;
   height: 180px;
@@ -49,6 +182,7 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  z-index: 1;
 }
 
 .product-card:hover .product-image {
@@ -59,19 +193,20 @@
 .product-image::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.2));
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.2));
   opacity: 0;
   transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .product-card:hover .product-image::after {
   opacity: 1;
 }
 
+/* Detalhes do produto */
 .product-details {
   width: 100%;
   position: relative;
@@ -84,15 +219,14 @@
   margin-bottom: 8px;
   position: relative;
   display: inline-block;
+  cursor: default;
 }
 
 .product-name::after {
   content: '';
   position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 2px;
+  bottom: -4px; left: 0;
+  width: 100%; height: 2px;
   background: #FEA34A;
   transform: scaleX(0);
   transition: transform 0.3s ease;
@@ -111,32 +245,74 @@
   line-height: 1.5;
   opacity: 0.9;
   transition: opacity 0.3s ease;
+  cursor: default;
 }
 
 .product-card:hover .product-description {
   opacity: 1;
 }
 
-/* Efeito de brilho nos cantos */
-.product-card::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at center, rgba(254, 163, 74, 0.1) 0%, transparent 70%);
+/* Animação dos cards ao aparecer */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+app-product-card {
+  animation: fadeInUp 0.5s ease-out forwards;
   opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
+  transition: all 0.3s ease;
 }
 
-.product-card:hover::after {
-  opacity: 1;
-  animation: rotate 4s linear infinite;
+app-product-card:hover {
+  z-index: 2;
 }
 
+app-product-card:nth-child(1) { animation-delay: 0.1s; }
+app-product-card:nth-child(2) { animation-delay: 0.2s; }
+app-product-card:nth-child(3) { animation-delay: 0.3s; }
+app-product-card:nth-child(4) { animation-delay: 0.4s; }
+app-product-card:nth-child(5) { animation-delay: 0.5s; }
+app-product-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* Animações auxiliares */
 @keyframes rotate {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+  50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.5; }
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .catalogo-container {
+    padding: 30px 20px;
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+
+  .search-container {
+    padding: 0 10px;
+  }
+
+  .produtos-grid {
+    gap: 20px;
+    padding: 0 10px;
+  }
 }

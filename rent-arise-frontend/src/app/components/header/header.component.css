@@ -10,7 +10,6 @@ div {
   margin: 0 auto;
   box-sizing: border-box;
   position: relative;
-  overflow-x: hidden;
 }
 
 /* === LOGO === */
@@ -107,7 +106,7 @@ img {
   pointer-events: none;
   overflow-y: auto;
   padding: 4px 0;
-  height: 230px;
+  height: 260px;
 }
 
 .nav-dropdown.show {
@@ -184,4 +183,9 @@ img {
     right: 0;
     border-radius: 0;
   }
+}
+
+/* Oculta o item de menu de alocação de produto por ID */
+.hide-alocar-id {
+  display: none;
 }

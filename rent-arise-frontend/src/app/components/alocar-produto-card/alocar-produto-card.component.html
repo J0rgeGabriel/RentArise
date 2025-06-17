@@ -1,0 +1,94 @@
+  <div *ngIf="carregando" class="carregando">
+    <span class="loading-text">Carregando produto...</span>
+  </div>
+
+  <section *ngIf="!carregando && produto" class="produto-container">
+    <div class="produto-detalhes">
+      <button (click)="voltarParaLista()" class="btn-voltar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Voltar para a lista
+      </button>
+      <div class="produto-imagem-container">
+        <img
+          [src]="produto.mainPhoto || 'https://via.placeholder.com/800x600?text=Sem+Imagem'"
+          [alt]="'Imagem do produto ' + produto.name"
+          class="produto-imagem"
+          (error)="onImageError($event)"
+        >
+      </div>
+
+      <div class="produto-info-container">
+        <h2 class="produto-nome">{{ produto.name }}</h2>
+
+        <div class="produto-info">
+          <p>
+            <strong>Descrição:</strong>
+            <span>{{ produto.description }}</span>
+          </p>
+          <p>
+            <strong>Preço por dia:</strong>
+            <span>R$ {{ produto.pricePerDay | number:'1.2-2' }}</span>
+          </p>
+          <p>
+            <strong>Locador:</strong>
+            <span>{{ produto.user.username }}</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="aluguel-section">
+        <h3 class="aluguel-titulo">Selecione o período de aluguel</h3>
+
+        <div class="datas-container">
+          <div class="data-input">
+            <label for="dataInicio">Data de Início</label>
+            <input
+              type="date"
+              id="dataInicio"
+              [(ngModel)]="dataInicio"
+              (change)="calcularValorTotal()"
+              [min]="dataMinima"
+              class="data-picker"
+            >
+          </div>
+
+          <div class="data-input">
+            <label for="dataFim">Data de Término</label>
+            <input
+              type="date"
+              id="dataFim"
+              [(ngModel)]="dataFim"
+              (change)="calcularValorTotal()"
+              [min]="dataInicio || dataMinima"
+              class="data-picker"
+            >
+          </div>
+        </div>
+
+        <div class="resumo-aluguel" *ngIf="valorTotal > 0">
+          <div class="resumo-item">
+            <span>Dias de aluguel</span>
+            <strong>{{ diasAluguel }}</strong>
+          </div>
+          <div class="resumo-item">
+            <span>Valor por dia</span>
+            <strong>R$ {{ produto.pricePerDay | number:'1.2-2' }}</strong>
+          </div>
+          <div class="resumo-item total">
+            <span>Valor total</span>
+            <strong>R$ {{ valorTotal | number:'1.2-2' }}</strong>
+          </div>
+        </div>
+
+        <button
+          class="btn-alugar"
+          [disabled]="!dataInicio || !dataFim || valorTotal <= 0"
+          (click)="confirmarAluguel()"
+        >
+          Alugar Agora
+        </button>
+      </div>
+    </div>
+  </section>

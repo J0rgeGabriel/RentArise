@@ -9,6 +9,7 @@ import { UpdateProductDto } from './dto/update-product-dto';
 import { DocCreateProduct, DocDeleteProduct, DocGetAvailableProducts, DocGetMyProducts, DocShowProduct, DocUpdateProduct } from './docs/product.docs';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
+import * as multer from 'multer';
 
 @Controller('api/products')
 @ApiTags('Products')
@@ -18,7 +19,7 @@ export class ProductController {
 
   @Post()
   @DocCreateProduct()
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', { storage: multer.memoryStorage() }))
   async create(@Body() createDto: CreateProductDto, @UploadedFile() file: FileProductDto, @CurrentUser() payload: JwtPayload) {
     return this.productService.create(createDto, payload, file);
   }
