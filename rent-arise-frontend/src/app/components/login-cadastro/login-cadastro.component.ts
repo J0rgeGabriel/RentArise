@@ -32,6 +32,7 @@ export class LoginCadastroComponent {
   showPassword = false;
   useEmail = true;
   errorMessage = '';
+  successMessage = '';
   isSubmitting = false;
 
   loginForm: LoginForm = {
@@ -112,7 +113,17 @@ export class LoginCadastroComponent {
 
     this.authService.register(fullname, username, email, password, cpf).subscribe({
       next: (user) => {
+        this.successMessage = 'Cadastro realizado com sucesso.'
         this.isSubmitting = false;
+
+        this.registerForm = {
+          fullname: '',
+          username: '',
+          email: '',
+          password: '',
+          cpf: '',
+          role: 'user'
+        };
       },
       error: (error) => {
         this.isSubmitting = false;

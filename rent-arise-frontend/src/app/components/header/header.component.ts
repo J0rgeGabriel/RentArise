@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, Routes } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,10 @@ export class HeaderComponent {
   showPageList = false;
   siteRoutes: Routes = [];
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {
     this.siteRoutes = this.router.config;
   }
 
@@ -22,6 +26,19 @@ export class HeaderComponent {
   }
 
   redirect() {
-    this.router.navigate(['/']);
+    const currentUrl = this.router.url;
+
+    if (currentUrl === '/home' || currentUrl === '/') {
+      this.authService.clearToken();
+      this.router.navigate(['/home']);
+      return;
+    }
+
+    const token = this.authService.getToken();
+    if (token) {
+      this.router.navigate(['/']);
+    } else {
+      this.router.navigate(['/home']);
+    }
   }
 }

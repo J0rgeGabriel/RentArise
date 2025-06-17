@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,17 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'RentArise';
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    const token = this.authService.getToken();
+
+    if (!token && this.router.url !== '/home') {
+      this.authService.clearToken();
+      this.router.navigate(['/home']);
+    }
+  }
 }

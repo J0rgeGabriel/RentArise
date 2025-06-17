@@ -1,9 +1,7 @@
-import { Injectable } from '@nestjs/common';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import { FileProductDto } from './dto/file-product-dto';
 
-@Injectable()
+/* @Injectable()
 export class UploadService {
   private readonly uploadDir = path.resolve(process.cwd(), 'uploads');
 
@@ -23,9 +21,8 @@ export class UploadService {
 
     return `http://localhost:3000/uploads/${filePath}`;
   }
-}
+} */
 
-/*
 import { createClient } from "@supabase/supabase-js";
 import { FileProductDto } from "./dto/file-product-dto";
 import { Injectable } from "@nestjs/common";
@@ -65,4 +62,3 @@ export class UploadService {
     return urlData.publicUrl;
   }
 }
-*/
